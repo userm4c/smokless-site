@@ -69,20 +69,21 @@ a { text-decoration: none; color: inherit; }
 }
 
 .logo-img {
-  height: 36px;
+  height: 100px;
   width: auto;
   display: block;
 }
 
 .footer .logo-img {
-  height: 30px;
+  height: 100px;
 }
 
 /* ── NAV LINKS ── */
 .nav-links {
   display: flex;
   gap: 32px;
-  margin-left: auto;
+  flex: 1;
+  justify-content: center;
 }
 
 .nav-links a {
