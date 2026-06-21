@@ -208,7 +208,11 @@ a { text-decoration: none; color: inherit; }
 .section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 96px 32px;
+  padding: 64px 32px;
+}
+
+#produtos {
+  padding-top: 32px;
 }
 
 .section-label {
