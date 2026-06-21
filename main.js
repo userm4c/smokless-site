@@ -75,14 +75,46 @@ const modalClose = document.getElementById('modal-close');
 
 function openModal(p) {
   if (!p) return;
+
+  const allImages = [p.imagem, ...(p.imagens || [])].filter(Boolean);
+  let activeIdx = 0;
+
+  function galleryHTML() {
+    if (!allImages.length) return '<div class="modal-img-placeholder">○</div>';
+    return `
+      <div class="modal-gallery">
+        <div class="modal-gallery-main">
+          <img id="modal-main-img" src="${allImages[0]}" alt="${p.nome}"
+            onerror="this.src=''; this.parentElement.innerHTML='<div class=\\'modal-img-placeholder\\'>○</div>'" />
+        </div>
+        ${allImages.length > 1 ? `
+        <div class="modal-gallery-thumbs">
+          ${allImages.map((src, i) => `
+            <button class="modal-thumb ${i === 0 ? 'active' : ''}" data-idx="${i}" aria-label="Imagem ${i + 1}">
+              <img src="${src}" alt="${p.nome} — imagem ${i + 1}"
+                onerror="this.parentElement.style.display='none'" />
+            </button>
+          `).join('')}
+        </div>` : ''}
+      </div>
+    `;
+  }
+
   modalBody.innerHTML = `
-    ${p.imagem
-      ? `<img class="modal-img" src="${p.imagem}" alt="${p.nome}" onerror="this.outerHTML='<div class=\\'modal-img-placeholder\\'>○</div>'" />`
-      : '<div class="modal-img-placeholder">○</div>'}
+    ${galleryHTML()}
     <div class="modal-info">
       <span class="modal-tipo">${p.tipo}</span>
       <h2 class="modal-nome" id="modal-title">${p.nome}</h2>
       <p class="modal-desc">${p.descricao}</p>
+      ${p.descricao_detalhada ? `<p class="modal-desc-detail">${p.descricao_detalhada}</p>` : ''}
+      ${p.caracteristicas?.length ? `
+        <div class="modal-specs">
+          <p class="modal-specs-title">Características</p>
+          <ul class="modal-specs-list">
+            ${p.caracteristicas.map((c) => `<li>${c}</li>`).join('')}
+          </ul>
+        </div>
+      ` : ''}
       <div class="modal-cta">
         <a href="https://wa.me/351999999999?text=${encodeURIComponent(`Olá! Tenho interesse no produto: ${p.nome}`)}"
            target="_blank" rel="noopener" class="btn btn-green">
@@ -91,6 +123,17 @@ function openModal(p) {
       </div>
     </div>
   `;
+
+  // Galeria — troca de imagem ao clicar na thumbnail
+  modalBody.querySelectorAll('.modal-thumb').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeIdx = Number(btn.dataset.idx);
+      document.getElementById('modal-main-img').src = allImages[activeIdx];
+      modalBody.querySelectorAll('.modal-thumb').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   modalClose.focus();
