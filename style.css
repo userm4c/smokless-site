@@ -150,7 +150,6 @@ a { text-decoration: none; color: inherit; }
 .hero-banner {
   width: 100%;
   line-height: 0;
-  padding-top: 64px;
 }
 
 .hero-banner-img {
@@ -596,9 +595,6 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
 
   .navbar-inner { gap: 16px; }
 
-  .hero-banner {
-    padding-top: 64px;
-  }
 
   .hero-btns {
     bottom: 10%;
