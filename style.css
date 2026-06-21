@@ -11,8 +11,8 @@
   --divider: rgba(255,255,255,0.08);
   --text: #ffffff;
   --muted: rgba(255,255,255,0.55);
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', system-ui, sans-serif;
 }
 
 html { scroll-behavior: smooth; font-size: 16px; }
