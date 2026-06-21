@@ -13,7 +13,7 @@ window.PRODUCTS = [
       "Rosca: 510",
       "Diâmetro: 25mm"
     ],
-    "imagem": "assets/produtos/Early Bird Emperor RTA Tank_Atomizador - Imagem livre.png",
+    "imagem": "assets/produtos/Emperor RTA — Early Bird/principal.png",
     "imagens": [],
     "destaque": true
   },
@@ -32,7 +32,7 @@ window.PRODUCTS = [
       "Ecrã TFT colorido",
       "Resistente a salpicos"
     ],
-    "imagem": "assets/produtos/Vaporesso Armor Max Kit - Imagem livre.png",
+    "imagem": "assets/produtos/Vaporesso Armor Max/principal.png",
     "imagens": [],
     "destaque": true
   },
@@ -51,7 +51,7 @@ window.PRODUCTS = [
       "Acabamento: couro PU premium",
       "Proteções: sobrecarga, curto-circuito, sobretemperatura"
     ],
-    "imagem": "assets/produtos/Lost Vape Thelema Solo 100 Pro Kit - Imagem livre.png",
+    "imagem": "assets/produtos/Lost Vape Thelema Solo 100 Pro/principal.png",
     "imagens": [],
     "destaque": true
   }
