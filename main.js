@@ -51,12 +51,22 @@ function probeImage(src) {
   });
 }
 
+const EXTS = ['png', 'webp', 'jpg', 'jpeg'];
+
+async function probeAny(base, name) {
+  for (const ext of EXTS) {
+    const src = await probeImage(`${base}${name}.${ext}`);
+    if (src) return src;
+  }
+  return null;
+}
+
 async function discoverImages(p) {
   if (!p.pasta) return p.imagem ? [p.imagem] : [];
   const base = pastaBase(p);
-  const principal = await probeImage(`${base}principal.png`);
+  const principal = await probeAny(base, 'principal');
   const extras = await Promise.all(
-    Array.from({ length: 9 }, (_, i) => probeImage(`${base}${i + 2}.png`))
+    Array.from({ length: 9 }, (_, i) => probeAny(base, i + 1))
   );
   return [principal, ...extras].filter(Boolean);
 }
