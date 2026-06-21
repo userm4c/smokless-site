@@ -51,7 +51,7 @@ function probeImage(src) {
   });
 }
 
-const EXTS = ['png', 'webp', 'jpg', 'jpeg'];
+const EXTS = ['png', 'webp', 'jpg', 'jpeg', 'jfif'];
 
 async function probeAny(base, name) {
   for (const ext of EXTS) {
