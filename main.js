@@ -39,12 +39,9 @@ async function loadProducts() {
   const grid = document.getElementById('products-grid');
   if (!grid) return;
 
-  let products = [];
-  try {
-    const res = await fetch('products.json');
-    products = await res.json();
-  } catch {
-    grid.innerHTML = '<p style="color:var(--muted)">Não foi possível carregar os produtos.</p>';
+  const products = window.PRODUCTS || [];
+  if (!products.length) {
+    grid.innerHTML = '<p style="color:var(--muted)">Sem produtos disponíveis.</p>';
     return;
   }
 
