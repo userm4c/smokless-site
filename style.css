@@ -87,7 +87,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .nav-links a {
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -143,31 +143,31 @@ a { text-decoration: none; color: inherit; }
 
 /* ── HERO ── */
 .hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
   background: var(--canvas);
 }
 
 .hero-banner {
   width: 100%;
   line-height: 0;
-  padding-top: 64px; /* altura da navbar */
+  padding-top: 64px;
 }
 
 .hero-banner-img {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover;
 }
 
 .hero-btns {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 16px;
-  flex-wrap: wrap;
   justify-content: center;
-  padding: 48px 24px;
+  white-space: nowrap;
 }
 
 /* ── BUTTONS ── */
@@ -600,13 +600,15 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
     padding-top: 64px;
   }
 
-  .hero-banner-img {
-    min-height: 240px;
-    object-fit: cover;
-    object-position: center;
+  .hero-btns {
+    bottom: 10%;
+    gap: 10px;
   }
 
-  .hero-btns { padding: 32px 20px; }
+  .hero-btns .btn {
+    padding: 10px 20px;
+    font-size: 0.75rem;
+  }
 
   .section { padding: 72px 20px; }
 
