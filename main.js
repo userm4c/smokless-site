@@ -64,9 +64,14 @@ async function probeAny(base, name) {
 async function discoverImages(p) {
   if (!p.pasta) return p.imagem ? [p.imagem] : [];
   const base = pastaBase(p);
-  const extras = (await Promise.all(
-    Array.from({ length: 9 }, (_, i) => probeAny(base, i + 1))
-  )).filter(Boolean);
+  const extras = [];
+  let i = 1;
+  while (true) {
+    const src = await probeAny(base, i);
+    if (!src) break;
+    extras.push(src);
+    i++;
+  }
   if (extras.length) return extras;
   const principal = await probeAny(base, 'principal');
   return [principal].filter(Boolean);
