@@ -155,8 +155,6 @@ a { text-decoration: none; color: inherit; }
 .hero-banner-img {
   width: 100%;
   height: auto;
-  max-height: 95vh;
-  object-fit: cover;
   display: block;
 }
 
@@ -214,7 +212,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 #produtos {
-  padding-top: 0;
+  padding-top: 32px;
 }
 
 .section-label {
