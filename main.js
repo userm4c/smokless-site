@@ -64,11 +64,12 @@ async function probeAny(base, name) {
 async function discoverImages(p) {
   if (!p.pasta) return p.imagem ? [p.imagem] : [];
   const base = pastaBase(p);
-  const principal = await probeAny(base, 'principal');
-  const extras = await Promise.all(
+  const extras = (await Promise.all(
     Array.from({ length: 9 }, (_, i) => probeAny(base, i + 1))
-  );
-  return [principal, ...extras].filter(Boolean);
+  )).filter(Boolean);
+  if (extras.length) return extras;
+  const principal = await probeAny(base, 'principal');
+  return [principal].filter(Boolean);
 }
 
 // ── Produtos ──
