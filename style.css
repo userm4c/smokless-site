@@ -161,11 +161,11 @@ a { text-decoration: none; color: inherit; }
 
 .hero-btns {
   position: absolute;
-  bottom: 18%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 16px;
+  gap: 20px;
   justify-content: center;
   white-space: nowrap;
 }
@@ -175,8 +175,8 @@ a { text-decoration: none; color: inherit; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 32px;
-  font-size: 0.8125rem;
+  padding: 18px 44px;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
