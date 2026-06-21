@@ -28,11 +28,38 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     const target = document.querySelector(a.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
-    const offset = 72;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    const top = target.getBoundingClientRect().top + window.scrollY - 72;
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
+
+// ── Auto-descoberta de imagens por pasta ──
+function pastaBase(p) {
+  return `assets/produtos/${p.pasta}/`;
+}
+
+function imgPrincipal(p) {
+  return `${pastaBase(p)}principal.png`;
+}
+
+function probeImage(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload  = () => resolve(src);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+async function discoverImages(p) {
+  if (!p.pasta) return p.imagem ? [p.imagem] : [];
+  const base = pastaBase(p);
+  const principal = await probeImage(`${base}principal.png`);
+  const extras = await Promise.all(
+    Array.from({ length: 9 }, (_, i) => probeImage(`${base}${i + 2}.png`))
+  );
+  return [principal, ...extras].filter(Boolean);
+}
 
 // ── Produtos ──
 async function loadProducts() {
@@ -45,21 +72,24 @@ async function loadProducts() {
     return;
   }
 
-  grid.innerHTML = products.map((p) => `
-    <article class="product-card" data-id="${p.id}" role="button" tabindex="0" aria-label="Ver detalhes de ${p.nome}">
-      <div class="product-img-wrap">
-        ${p.imagem
-          ? `<img src="${p.imagem}" alt="${p.nome}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'product-img-placeholder\\'>○</span>'" />`
-          : '<span class="product-img-placeholder">○</span>'}
-      </div>
-      <div class="product-body">
-        <span class="product-tipo">${p.tipo}</span>
-        <h3 class="product-nome">${p.nome}</h3>
-        <p class="product-desc">${p.descricao}</p>
-        <span class="product-link">→ Ver Detalhes</span>
-      </div>
-    </article>
-  `).join('');
+  grid.innerHTML = products.map((p) => {
+    const src = p.pasta ? imgPrincipal(p) : (p.imagem || '');
+    return `
+      <article class="product-card" data-id="${p.id}" role="button" tabindex="0" aria-label="Ver detalhes de ${p.nome}">
+        <div class="product-img-wrap">
+          ${src
+            ? `<img src="${src}" alt="${p.nome}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'product-img-placeholder\\'>○</span>'" />`
+            : '<span class="product-img-placeholder">○</span>'}
+        </div>
+        <div class="product-body">
+          <span class="product-tipo">${p.tipo}</span>
+          <h3 class="product-nome">${p.nome}</h3>
+          <p class="product-desc">${p.descricao}</p>
+          <span class="product-link">→ Ver Detalhes</span>
+        </div>
+      </article>
+    `;
+  }).join('');
 
   grid.querySelectorAll('.product-card').forEach((card) => {
     const open = () => openModal(products.find((p) => p.id === Number(card.dataset.id)));
@@ -69,39 +99,46 @@ async function loadProducts() {
 }
 
 // ── Modal ──
-const overlay = document.getElementById('modal-overlay');
+const overlay  = document.getElementById('modal-overlay');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.getElementById('modal-close');
 
-function openModal(p) {
+async function openModal(p) {
   if (!p) return;
 
-  const allImages = [p.imagem, ...(p.imagens || [])].filter(Boolean);
+  // Mostrar modal imediatamente com loader
+  modalBody.innerHTML = `<div class="modal-loading">A carregar...</div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modalClose.focus();
+
+  const allImages = await discoverImages(p);
   let activeIdx = 0;
 
-  function galleryHTML() {
-    if (!allImages.length) return '<div class="modal-img-placeholder">○</div>';
-    return `
+  function setActive(idx) {
+    activeIdx = idx;
+    document.getElementById('modal-main-img').src = allImages[idx];
+    modalBody.querySelectorAll('.modal-thumb').forEach((b) =>
+      b.classList.toggle('active', Number(b.dataset.idx) === idx)
+    );
+  }
+
+  modalBody.innerHTML = `
+    ${allImages.length ? `
       <div class="modal-gallery">
         <div class="modal-gallery-main">
-          <img id="modal-main-img" src="${allImages[0]}" alt="${p.nome}"
-            onerror="this.src=''; this.parentElement.innerHTML='<div class=\\'modal-img-placeholder\\'>○</div>'" />
+          <img id="modal-main-img" src="${allImages[0]}" alt="${p.nome}" />
         </div>
         ${allImages.length > 1 ? `
         <div class="modal-gallery-thumbs">
           ${allImages.map((src, i) => `
             <button class="modal-thumb ${i === 0 ? 'active' : ''}" data-idx="${i}" aria-label="Imagem ${i + 1}">
-              <img src="${src}" alt="${p.nome} — imagem ${i + 1}"
-                onerror="this.parentElement.style.display='none'" />
+              <img src="${src}" alt="${p.nome} — imagem ${i + 1}" />
             </button>
           `).join('')}
         </div>` : ''}
       </div>
-    `;
-  }
-
-  modalBody.innerHTML = `
-    ${galleryHTML()}
+    ` : '<div class="modal-img-placeholder">○</div>'}
     <div class="modal-info">
       <span class="modal-tipo">${p.tipo}</span>
       <h2 class="modal-nome" id="modal-title">${p.nome}</h2>
@@ -124,19 +161,9 @@ function openModal(p) {
     </div>
   `;
 
-  // Galeria — troca de imagem ao clicar na thumbnail
   modalBody.querySelectorAll('.modal-thumb').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      activeIdx = Number(btn.dataset.idx);
-      document.getElementById('modal-main-img').src = allImages[activeIdx];
-      modalBody.querySelectorAll('.modal-thumb').forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
+    btn.addEventListener('click', () => setActive(Number(btn.dataset.idx)));
   });
-
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  modalClose.focus();
 }
 
 function closeModal() {

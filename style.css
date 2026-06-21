@@ -652,6 +652,13 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
 
 .modal-cta { margin-top: 8px; }
 
+.modal-loading {
+  padding: 80px 24px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .sobre-inner { grid-template-columns: 1fr; gap: 40px; }

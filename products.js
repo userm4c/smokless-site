@@ -13,8 +13,7 @@ window.PRODUCTS = [
       "Rosca: 510",
       "Diâmetro: 25mm"
     ],
-    "imagem": "assets/produtos/Emperor RTA — Early Bird/principal.png",
-    "imagens": [],
+    "pasta": "Emperor RTA — Early Bird",
     "destaque": true
   },
   {
@@ -32,8 +31,7 @@ window.PRODUCTS = [
       "Ecrã TFT colorido",
       "Resistente a salpicos"
     ],
-    "imagem": "assets/produtos/Vaporesso Armor Max/principal.png",
-    "imagens": [],
+    "pasta": "Vaporesso Armor Max",
     "destaque": true
   },
   {
@@ -51,8 +49,7 @@ window.PRODUCTS = [
       "Acabamento: couro PU premium",
       "Proteções: sobrecarga, curto-circuito, sobretemperatura"
     ],
-    "imagem": "assets/produtos/Lost Vape Thelema Solo 100 Pro/principal.png",
-    "imagens": [],
+    "pasta": "Lost Vape Thelema Solo 100 Pro",
     "destaque": true
   }
 ];
