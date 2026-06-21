@@ -270,7 +270,7 @@ a { text-decoration: none; color: inherit; }
 
 .product-img-wrap {
   aspect-ratio: 4/3;
-  background: #1a1a1a;
+  background: #1a1a1a url('assets/Base.png') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -534,7 +534,7 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
 .modal-gallery-main {
   width: 100%;
   aspect-ratio: 4/3;
-  background: #1a1a1a;
+  background: #1a1a1a url('assets/Base.png') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -564,7 +564,7 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   border-radius: 6px;
   overflow: hidden;
   border: 2px solid transparent;
-  background: #1a1a1a;
+  background: #1a1a1a url('assets/Base.png') center/cover no-repeat;
   cursor: pointer;
   padding: 0;
   transition: border-color 0.2s;
