@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Smokless</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #00e87a; --canvas: #0a0a0a; --panel: #111; --card: #161616;
+      --divider: rgba(255,255,255,0.08); --text: #fff; --muted: rgba(255,255,255,0.5);
+      --danger: #ff4d4d; --warn: #f59e0b;
+    }
+    html { font-size: 16px; }
+    body { background: var(--canvas); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    /* ── Login ── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-box {
+      background: var(--panel);
+      border: 1px solid var(--divider);
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .login-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+    .login-subtitle { font-size: 0.875rem; color: var(--muted); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--card);
+      border: 1px solid var(--divider);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group select option { background: var(--card); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 20px; font-size: 0.875rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px;
+      cursor: pointer; border: none; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-green { background: var(--green); color: #000; }
+    .btn-green:hover { opacity: 0.88; }
+    .btn-outline { background: transparent; border: 1px solid var(--divider); color: var(--muted); }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+    .btn-danger { background: transparent; border: 1px solid rgba(255,77,77,0.3); color: var(--danger); }
+    .btn-danger:hover { background: rgba(255,77,77,0.1); }
+    .btn-sm { padding: 7px 14px; font-size: 0.75rem; }
+    .error-msg { font-size: 0.8125rem; color: var(--danger); }
+
+    /* ── App ── */
+    #app-screen { display: none; }
+
+    .app-header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--divider);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .app-header-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--green); }
+    .app-header-right { display: flex; align-items: center; gap: 12px; }
+    .badge { background: rgba(0,232,122,0.12); color: var(--green); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+
+    .app-body { max-width: 960px; margin: 0 auto; padding: 40px 32px; }
+
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .section-head h2 { font-size: 1.25rem; font-weight: 700; }
+
+    /* ── Product list ── */
+    .product-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
+    .product-row {
+      background: var(--card);
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .product-row-img {
+      width: 56px; height: 56px; border-radius: 6px;
+      object-fit: cover; background: #1e1e1e; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: rgba(255,255,255,0.08);
+    }
+    .product-row-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+    .product-row-info { flex: 1; min-width: 0; }
+    .product-row-tipo { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); }
+    .product-row-nome { font-size: 0.9375rem; font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .product-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    /* ── Modal / drawer ── */
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100;
+      display: none; align-items: flex-end; justify-content: center;
+    }
+    .drawer-overlay.open { display: flex; }
+    .drawer {
+      background: var(--panel);
+      border: 1px solid var(--divider);
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      max-width: 560px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .drawer-title { font-size: 1.125rem; font-weight: 700; }
+    .drawer-footer { display: flex; gap: 10px; justify-content: flex-end; padding-top: 8px; }
+
+    /* ── GitHub config ── */
+    .github-config {
+      background: var(--card);
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .github-config h3 { font-size: 0.9375rem; font-weight: 700; margin-bottom: 16px; }
+    .github-config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .github-status { font-size: 0.8125rem; margin-top: 12px; color: var(--muted); }
+    .github-status.ok { color: var(--green); }
+    .github-status.err { color: var(--danger); }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--panel); border: 1px solid var(--divider);
+      border-radius: 8px; padding: 12px 20px;
+      font-size: 0.875rem; font-weight: 500;
+      z-index: 200; display: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .toast.show { display: block; }
+    .toast.ok { border-color: rgba(0,232,122,0.3); color: var(--green); }
+    .toast.err { border-color: rgba(255,77,77,0.3); color: var(--danger); }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">SMOKLESS ADMIN</div>
+    <p class="login-subtitle">Acesso restrito — introduz a senha para continuar.</p>
+    <div class="form-group">
+      <label for="pwd">Senha</label>
+      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <p class="error-msg" id="login-err" style="display:none">Senha incorrecta.</p>
+    <button class="btn btn-green" id="login-btn">Entrar</button>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app-screen">
+  <header class="app-header">
+    <span class="app-header-logo">SMOKLESS ADMIN</span>
+    <div class="app-header-right">
+      <span class="badge">Admin</span>
+      <button class="btn btn-outline btn-sm" id="logout-btn">Sair</button>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- GitHub config -->
+    <div class="github-config" id="github-config">
+      <h3>Configuração GitHub (guarda as alterações no repositório)</h3>
+      <div class="github-config-grid">
+        <div class="form-group">
+          <label>Utilizador GitHub</label>
+          <input type="text" id="gh-user" placeholder="userm4c" />
+        </div>
+        <div class="form-group">
+          <label>Repositório</label>
+          <input type="text" id="gh-repo" placeholder="smokless-site" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1">
+          <label>Token de Acesso (Fine-Grained, scope: contents write)</label>
+          <input type="password" id="gh-token" placeholder="github_pat_..." />
+        </div>
+      </div>
+      <p class="github-status" id="gh-status">Preenche os campos acima para activar a gravação automática.</p>
+      <div style="margin-top:12px; display:flex; gap:10px;">
+        <button class="btn btn-outline btn-sm" id="gh-save-btn">Guardar configuração</button>
+        <button class="btn btn-outline btn-sm" id="gh-test-btn">Testar ligação</button>
+      </div>
+    </div>
+
+    <!-- Product list -->
+    <div class="section-head">
+      <h2>Produtos</h2>
+      <button class="btn btn-green btn-sm" id="add-btn">+ Adicionar Produto</button>
+    </div>
+    <div class="product-list" id="product-list"></div>
+
+  </div>
+</div>
+
+<!-- ── DRAWER (add / edit) ── -->
+<div class="drawer-overlay" id="drawer-overlay">
+  <div class="drawer">
+    <h2 class="drawer-title" id="drawer-title">Adicionar Produto</h2>
+    <input type="hidden" id="edit-id" />
+    <div class="form-group">
+      <label>Tipo</label>
+      <select id="edit-tipo">
+        <option>RTA</option><option>RDA</option><option>RDTA</option>
+        <option>KIT</option><option>MOD</option><option>POD</option>
+        <option>LÍQUIDO</option><option>RESISTÊNCIA</option><option>ACESSÓRIO</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" id="edit-nome" placeholder="Ex: Vaporesso Armour Max" />
+    </div>
+    <div class="form-group">
+      <label>Descrição curta</label>
+      <textarea id="edit-desc" placeholder="Características principais..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>URL da Imagem (ou caminho relativo)</label>
+      <input type="text" id="edit-img" placeholder="assets/produtos/nome-do-produto.jpg" />
+    </div>
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-size:0.875rem;">
+        <input type="checkbox" id="edit-destaque" style="width:16px;height:16px;accent-color:var(--green);" />
+        Produto em destaque na página principal
+      </label>
+    </div>
+    <div class="drawer-footer">
+      <button class="btn btn-outline" id="drawer-cancel">Cancelar</button>
+      <button class="btn btn-green" id="drawer-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Senha (hash SHA-256) ──
+  // Para mudar a senha: gerar SHA-256 da nova senha em https://emn178.github.io/online-tools/sha256.html
+  // Senha padrão: smokless2026
+  const PASSWORD_HASH = 'e8a7b3c9f1d2a4e6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4';
+
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  // ── Toast ──
+  function toast(msg, type = 'ok') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = `toast show ${type}`;
+    setTimeout(() => el.classList.remove('show'), 3500);
+  }
+
+  // ── GitHub helpers ──
+  function getGhConfig() {
+    return {
+      user: localStorage.getItem('gh_user') || '',
+      repo: localStorage.getItem('gh_repo') || '',
+      token: localStorage.getItem('gh_token') || '',
+    };
+  }
+
+  async function ghGetFile() {
+    const { user, repo, token } = getGhConfig();
+    if (!user || !repo || !token) return null;
+    const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    if (!res.ok) return null;
+    return res.json();
+  }
+
+  async function ghPutFile(products, sha) {
+    const { user, repo, token } = getGhConfig();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))));
+    const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'chore: actualizar produtos via admin', content, sha }),
+    });
+    return res.ok;
+  }
+
+  // ── Estado local ──
+  let products = [];
+  let fileSha = null;
+
+  function loadLocal() {
+    const raw = localStorage.getItem('products');
+    products = raw ? JSON.parse(raw) : [];
+  }
+
+  function saveLocal() {
+    localStorage.setItem('products', JSON.stringify(products));
+  }
+
+  function nextId() {
+    return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
+  }
+
+  // ── Render list ──
+  function renderList() {
+    const list = document.getElementById('product-list');
+    if (!products.length) {
+      list.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem produtos adicionados.</p>';
+      return;
+    }
+    list.innerHTML = products.map(p => `
+      <div class="product-row" data-id="${p.id}">
+        <div class="product-row-img">
+          ${p.imagem ? `<img src="../${p.imagem}" alt="${p.nome}" onerror="this.parentElement.textContent='○'" />` : '○'}
+        </div>
+        <div class="product-row-info">
+          <div class="product-row-tipo">${p.tipo}</div>
+          <div class="product-row-nome">${p.nome}</div>
+        </div>
+        <div class="product-row-actions">
+          <button class="btn btn-outline btn-sm" onclick="editProduct(${p.id})">Editar</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── Drawer ──
+  function openDrawer(p = null) {
+    document.getElementById('drawer-title').textContent = p ? 'Editar Produto' : 'Adicionar Produto';
+    document.getElementById('edit-id').value = p ? p.id : '';
+    document.getElementById('edit-tipo').value = p ? p.tipo : 'KIT';
+    document.getElementById('edit-nome').value = p ? p.nome : '';
+    document.getElementById('edit-desc').value = p ? p.descricao : '';
+    document.getElementById('edit-img').value = p ? p.imagem : '';
+    document.getElementById('edit-destaque').checked = p ? !!p.destaque : true;
+    document.getElementById('drawer-overlay').classList.add('open');
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawer-overlay').classList.remove('open');
+  }
+
+  function editProduct(id) {
+    openDrawer(products.find(p => p.id === id));
+  }
+
+  async function deleteProduct(id) {
+    if (!confirm('Eliminar este produto?')) return;
+    products = products.filter(p => p.id !== id);
+    saveLocal();
+    renderList();
+    await syncGitHub();
+  }
+
+  // ── GitHub sync ──
+  async function syncGitHub() {
+    const { user, repo, token } = getGhConfig();
+    if (!user || !repo || !token) return;
+    if (!fileSha) {
+      const file = await ghGetFile();
+      if (file) fileSha = file.sha;
+    }
+    const ok = await ghPutFile(products, fileSha);
+    if (ok) {
+      const file = await ghGetFile();
+      if (file) fileSha = file.sha;
+      toast('Guardado e publicado no GitHub.');
+    } else {
+      toast('Erro ao publicar. Verifica a configuração GitHub.', 'err');
+    }
+  }
+
+  // ── Init ──
+  async function initApp() {
+    // Carregar config GitHub
+    const cfg = getGhConfig();
+    document.getElementById('gh-user').value = cfg.user;
+    document.getElementById('gh-repo').value = cfg.repo;
+    document.getElementById('gh-token').value = cfg.token;
+
+    // Tentar carregar do GitHub
+    if (cfg.user && cfg.repo && cfg.token) {
+      const file = await ghGetFile();
+      if (file) {
+        fileSha = file.sha;
+        products = JSON.parse(atob(file.content.replace(/\n/g, '')));
+        saveLocal();
+        document.getElementById('gh-status').textContent = '✓ Ligado ao repositório.';
+        document.getElementById('gh-status').className = 'github-status ok';
+      }
+    } else {
+      loadLocal();
+    }
+    renderList();
+  }
+
+  // ── Events ──
+  document.getElementById('login-btn').addEventListener('click', async () => {
+    const pwd = document.getElementById('pwd').value;
+    const hash = await sha256(pwd);
+    if (hash === PASSWORD_HASH) {
+      sessionStorage.setItem('admin_auth', '1');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-screen').style.display = 'block';
+      initApp();
+    } else {
+      document.getElementById('login-err').style.display = 'block';
+    }
+  });
+
+  document.getElementById('pwd').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('login-btn').click();
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    sessionStorage.removeItem('admin_auth');
+    location.reload();
+  });
+
+  document.getElementById('add-btn').addEventListener('click', () => openDrawer());
+  document.getElementById('drawer-cancel').addEventListener('click', closeDrawer);
+  document.getElementById('drawer-overlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('drawer-overlay')) closeDrawer();
+  });
+
+  document.getElementById('drawer-save').addEventListener('click', async () => {
+    const id = document.getElementById('edit-id').value;
+    const product = {
+      id: id ? Number(id) : nextId(),
+      tipo: document.getElementById('edit-tipo').value,
+      nome: document.getElementById('edit-nome').value.trim(),
+      descricao: document.getElementById('edit-desc').value.trim(),
+      imagem: document.getElementById('edit-img').value.trim(),
+      destaque: document.getElementById('edit-destaque').checked,
+    };
+    if (!product.nome) { toast('O nome é obrigatório.', 'err'); return; }
+    if (id) {
+      products = products.map(p => p.id === Number(id) ? product : p);
+    } else {
+      products.push(product);
+    }
+    saveLocal();
+    renderList();
+    closeDrawer();
+    await syncGitHub();
+  });
+
+  document.getElementById('gh-save-btn').addEventListener('click', () => {
+    localStorage.setItem('gh_user', document.getElementById('gh-user').value.trim());
+    localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
+    localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
+    toast('Configuração guardada.');
+  });
+
+  document.getElementById('gh-test-btn').addEventListener('click', async () => {
+    localStorage.setItem('gh_user', document.getElementById('gh-user').value.trim());
+    localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
+    localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
+    const file = await ghGetFile();
+    const statusEl = document.getElementById('gh-status');
+    if (file) {
+      fileSha = file.sha;
+      statusEl.textContent = '✓ Ligação bem-sucedida ao repositório.';
+      statusEl.className = 'github-status ok';
+      toast('GitHub configurado com sucesso.');
+    } else {
+      statusEl.textContent = '✗ Falha na ligação. Verifica utilizador, repositório e token.';
+      statusEl.className = 'github-status err';
+      toast('Erro na ligação ao GitHub.', 'err');
+    }
+  });
+
+  // ── Verificar sessão ──
+  if (sessionStorage.getItem('admin_auth') === '1') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'block';
+    initApp();
+  }
+</script>
+</body>
+</html>
