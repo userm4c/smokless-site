@@ -61,20 +61,38 @@ async function probeAny(base, name) {
   return null;
 }
 
+const imageCache = new Map();
+
+const BATCH = 6;
+
 async function discoverImages(p) {
-  if (!p.pasta) return p.imagem ? [p.imagem] : [];
+  if (imageCache.has(p.id)) return imageCache.get(p.id);
+  if (!p.pasta) {
+    const result = p.imagem ? [p.imagem] : [];
+    imageCache.set(p.id, result);
+    return result;
+  }
   const base = pastaBase(p);
   const extras = [];
-  let i = 1;
+  let start = 1;
   while (true) {
-    const src = await probeAny(base, i);
-    if (!src) break;
-    extras.push(src);
-    i++;
+    const batch = await Promise.all(
+      Array.from({ length: BATCH }, (_, i) => probeAny(base, start + i))
+    );
+    const cut = batch.findIndex((s) => !s);
+    extras.push(...(cut === -1 ? batch : batch.slice(0, cut)));
+    if (cut !== -1) break;
+    start += BATCH;
   }
-  if (extras.length) return extras;
-  const principal = await probeAny(base, 'principal');
-  return [principal].filter(Boolean);
+  let result;
+  if (extras.length) {
+    result = extras;
+  } else {
+    const principal = await probeAny(base, 'principal');
+    result = [principal].filter(Boolean);
+  }
+  imageCache.set(p.id, result);
+  return result;
 }
 
 // ── Produtos ──
