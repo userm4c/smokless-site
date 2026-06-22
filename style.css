@@ -697,16 +697,23 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
 .section-destaques { padding-bottom: 0; }
 
 .destaques-scroll {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  overflow: hidden;
+  padding-bottom: 4px;
 }
 
-.destaques-scroll::-webkit-scrollbar { display: none; }
+.destaques-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: destaques-marquee linear infinite;
+}
+
+.destaques-track:hover { animation-play-state: paused; }
+
+@keyframes destaques-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 .destaque-card {
   flex-shrink: 0;
@@ -716,7 +723,6 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  scroll-snap-align: start;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 

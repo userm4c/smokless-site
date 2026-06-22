@@ -114,11 +114,11 @@ function renderDestaques(products) {
   const scroll  = document.getElementById('destaques-scroll');
   if (!section || !scroll || !products.length) return;
   section.style.display = '';
-  scroll.innerHTML = products.map((p, i) => {
-    const src   = p.pasta ? imgPrincipal(p) : (p.imagem || '');
-    const delay = i * 80;
+
+  const cardHtml = products.map((p) => {
+    const src = p.pasta ? imgPrincipal(p) : (p.imagem || '');
     return `
-      <article class="destaque-card fade-up" style="transition-delay:${delay}ms" data-id="${p.id}" role="button" tabindex="0" aria-label="Ver ${p.nome}">
+      <article class="destaque-card" data-id="${p.id}" role="button" tabindex="0" aria-label="Ver ${p.nome}">
         <div class="destaque-img">
           ${src ? `<img src="${src}" alt="${p.nome}" loading="lazy" onerror="this.style.display='none'" />` : ''}
         </div>
@@ -129,13 +129,17 @@ function renderDestaques(products) {
         </div>
       </article>`;
   }).join('');
+
+  const duration = products.length * 5;
+  scroll.innerHTML = `<div class="destaques-track" style="animation-duration:${duration}s">${cardHtml}${cardHtml}</div>`;
+
   scroll.querySelectorAll('.destaque-card').forEach((card) => {
     const p    = products.find((x) => x.id === Number(card.dataset.id));
+    if (!p) return;
     const open = () => openModal(p);
     card.addEventListener('click', open);
     card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
   });
-  observeAnimated();
 }
 
 function loadProducts() {
