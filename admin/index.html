@@ -18,14 +18,11 @@
 
     /* ── Login ── */
     #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-    .login-box {
-      background: var(--panel); border: 1px solid var(--divider); border-radius: 12px;
-      padding: 40px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px;
-    }
+    .login-box { background: var(--panel); border: 1px solid var(--divider); border-radius: 12px; padding: 40px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px; }
     .login-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--green); letter-spacing: 0.05em; }
     .login-subtitle { font-size: 0.875rem; color: var(--muted); }
 
-    /* ── Shared form ── */
+    /* ── Form ── */
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     .form-group input, .form-group textarea {
@@ -37,12 +34,7 @@
     .form-group textarea { resize: vertical; min-height: 80px; }
 
     /* ── Buttons ── */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 11px 20px; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; border-radius: 6px; cursor: pointer; border: none;
-      transition: all 0.2s; font-family: inherit;
-    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 20px; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
     .btn-green { background: var(--green); color: #000; }
     .btn-green:hover { opacity: 0.85; }
     .btn-outline { background: transparent; border: 1px solid var(--divider); color: var(--muted); }
@@ -53,147 +45,103 @@
     .error-msg { font-size: 0.8125rem; color: var(--danger); }
 
     /* ── App ── */
-    #app-screen { display: none; }
-    .app-header {
-      background: var(--panel); border-bottom: 1px solid var(--divider);
-      padding: 0 32px; height: 60px; display: flex; align-items: center;
-      justify-content: space-between; position: sticky; top: 0; z-index: 10;
-    }
+    #app-screen { display: none; min-height: 100vh; }
+    .app-header { background: var(--panel); border-bottom: 1px solid var(--divider); padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
     .app-header-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--green); }
     .app-header-right { display: flex; align-items: center; gap: 12px; }
     .badge { background: rgba(0,232,122,0.12); color: var(--green); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
-    .app-body { max-width: 1000px; margin: 0 auto; padding: 40px 32px; }
 
-    /* ── GitHub config ── */
-    .github-config { background: var(--card); border: 1px solid var(--divider); border-radius: 8px; padding: 24px; margin-bottom: 32px; }
-    .github-config h3 { font-size: 0.9375rem; font-weight: 700; margin-bottom: 16px; }
-    .github-config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    /* ── Tab Bar ── */
+    .tab-bar { display: flex; gap: 4px; padding: 20px 32px 0; border-bottom: 1px solid var(--divider); background: var(--panel); }
+    .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 20px; font-family: inherit; font-size: 0.875rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; margin-bottom: -1px; border-radius: 6px 6px 0 0; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+
+    /* ── Tab Content ── */
+    .tab-content { display: none; max-width: 860px; margin: 0 auto; padding: 36px 32px; }
+    .tab-content.active { display: block; }
+
+    /* ── Cards de secção ── */
+    .section-card { background: var(--card); border: 1px solid var(--divider); border-radius: 10px; padding: 28px; margin-bottom: 24px; }
+    .section-card-title { font-size: 1rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .section-card-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-hint { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    .section-card-footer { display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--divider); }
+
+    /* ── Stats editor ── */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-editor { background: var(--panel); border: 1px solid var(--divider); border-radius: 6px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .stat-editor .form-group label { font-size: 0.65rem; }
+
+    /* ── Products tab ── */
+    .products-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .products-header h2 { font-size: 1.125rem; font-weight: 700; }
+    .tipo-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .tipo-chip { background: var(--card); border: 1px solid var(--divider); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .tipo-chip:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .tipo-chip.active { background: rgba(0,232,122,0.1); border-color: var(--green); color: var(--green); }
+
+    .category-block { margin-bottom: 28px; }
+    .category-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); padding: 0 0 10px; border-bottom: 1px solid var(--divider); margin-bottom: 10px; }
+    .product-rows { display: flex; flex-direction: column; gap: 8px; }
+    .product-row { background: var(--panel); border: 1px solid var(--divider); border-radius: 8px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+    .product-row-img { width: 48px; height: 48px; border-radius: 6px; background: #1e1e1e; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.08); font-size: 1.2rem; }
+    .product-row-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-row-info { flex: 1; min-width: 0; }
+    .product-row-nome { font-size: 0.9375rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .product-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    /* ── Config tab ── */
     .github-status { font-size: 0.8125rem; margin-top: 12px; color: var(--muted); }
     .github-status.ok { color: var(--green); }
     .github-status.err { color: var(--danger); }
 
-    /* ── Product list ── */
-    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-    .section-head h2 { font-size: 1.25rem; font-weight: 700; }
-    .product-list { display: flex; flex-direction: column; gap: 12px; }
-    .product-row {
-      background: var(--card); border: 1px solid var(--divider); border-radius: 8px;
-      padding: 16px 20px; display: flex; align-items: center; gap: 16px;
-    }
-    .product-row-img {
-      width: 56px; height: 56px; border-radius: 6px; background: #1e1e1e; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; color: rgba(255,255,255,0.08); overflow: hidden;
-    }
-    .product-row-img img { width: 100%; height: 100%; object-fit: cover; }
-    .product-row-info { flex: 1; min-width: 0; }
-    .product-row-tipo { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); }
-    .product-row-nome { font-size: 0.9375rem; font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .product-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
-
     /* ── Modal editor ── */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100;
-      display: none; align-items: center; justify-content: center; padding: 24px;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
     .modal-overlay.open { display: flex; }
-    .modal-box {
-      background: var(--panel); border: 1px solid var(--divider); border-radius: 12px;
-      width: 100%; max-width: 680px; max-height: 92vh; display: flex; flex-direction: column;
-      overflow: hidden;
-    }
-    .modal-header {
-      padding: 24px 28px 20px; border-bottom: 1px solid var(--divider);
-      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
-    }
+    .modal-box { background: var(--panel); border: 1px solid var(--divider); border-radius: 12px; width: 100%; max-width: 680px; max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { padding: 22px 28px 18px; border-bottom: 1px solid var(--divider); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
     .modal-title { font-size: 1.125rem; font-weight: 700; }
-    .modal-close-btn {
-      background: none; border: none; color: var(--muted); font-size: 1.25rem;
-      cursor: pointer; padding: 4px; line-height: 1;
-    }
+    .modal-close-btn { background: none; border: none; color: var(--muted); font-size: 1.25rem; cursor: pointer; padding: 4px; }
     .modal-close-btn:hover { color: var(--text); }
-    .modal-body { padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; flex: 1; }
-    .modal-footer {
-      padding: 16px 28px; border-top: 1px solid var(--divider);
-      display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0;
-    }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .modal-body { padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; flex: 1; }
+    .modal-footer { padding: 16px 28px; border-top: 1px solid var(--divider); display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0; }
+    .modal-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
     /* ── Características ── */
     .carac-list { display: flex; flex-direction: column; gap: 8px; }
     .carac-row { display: flex; gap: 8px; align-items: center; }
     .carac-row input { flex: 1; }
-    .carac-remove {
-      background: none; border: none; color: var(--muted); font-size: 1.1rem;
-      cursor: pointer; padding: 6px; flex-shrink: 0; line-height: 1;
-    }
+    .carac-remove { background: none; border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 6px; flex-shrink: 0; }
     .carac-remove:hover { color: var(--danger); }
-    .carac-add-btn {
-      background: none; border: 1px dashed var(--divider); border-radius: 6px;
-      color: var(--muted); font-size: 0.8125rem; padding: 8px; cursor: pointer;
-      width: 100%; text-align: center; margin-top: 4px; transition: all 0.2s;
-    }
+    .carac-add-btn { background: none; border: 1px dashed var(--divider); border-radius: 6px; color: var(--muted); font-size: 0.8125rem; padding: 8px; cursor: pointer; width: 100%; text-align: center; margin-top: 4px; transition: all 0.2s; }
     .carac-add-btn:hover { border-color: var(--green); color: var(--green); }
 
-    /* ── Galeria upload ── */
+    /* ── Gallery upload ── */
     .gallery-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-    .gallery-thumb {
-      position: relative; width: 80px; height: 80px; border-radius: 6px;
-      background: var(--card); border: 1px solid var(--divider); overflow: hidden;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
+    .gallery-thumb { position: relative; width: 76px; height: 76px; border-radius: 6px; background: var(--card); border: 1px solid var(--divider); overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .gallery-thumb .thumb-label {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.65); font-size: 0.55rem; padding: 2px 4px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
-    }
-    .gallery-thumb .thumb-remove {
-      position: absolute; top: 3px; right: 3px; width: 18px; height: 18px;
-      background: rgba(0,0,0,0.75); border: none; border-radius: 50%;
-      color: #fff; font-size: 0.7rem; cursor: pointer; display: flex;
-      align-items: center; justify-content: center; line-height: 1;
-    }
+    .gallery-thumb .thumb-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.65); font-size: 0.5rem; padding: 2px 3px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .gallery-thumb .thumb-remove { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; background: rgba(0,0,0,0.75); border: none; border-radius: 50%; color: #fff; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .gallery-thumb .thumb-remove:hover { background: var(--danger); }
-    .gallery-thumb.pending { border-color: rgba(0,232,122,0.4); }
-    .upload-label {
-      display: inline-flex; align-items: center; gap: 6px;
-      border: 1px dashed var(--divider); border-radius: 6px;
-      color: var(--muted); font-size: 0.8125rem; padding: 8px 14px;
-      cursor: pointer; transition: all 0.2s;
-    }
+    .gallery-thumb.pending { border-color: rgba(0,232,122,0.35); }
+    .upload-label { display: inline-flex; align-items: center; gap: 6px; border: 1px dashed var(--divider); border-radius: 6px; color: var(--muted); font-size: 0.8125rem; padding: 8px 14px; cursor: pointer; transition: all 0.2s; }
     .upload-label:hover { border-color: var(--green); color: var(--green); }
     .upload-label input { display: none; }
-
-    /* ── Principal preview ── */
     .principal-wrap { display: flex; align-items: center; gap: 16px; }
-    .principal-preview {
-      width: 72px; height: 72px; border-radius: 6px; background: var(--card);
-      border: 1px solid var(--divider); overflow: hidden; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 1.5rem;
-    }
+    .principal-preview { width: 68px; height: 68px; border-radius: 6px; background: var(--card); border: 1px solid var(--divider); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 1.4rem; }
     .principal-preview img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* ── Saving overlay ── */
-    .saving-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200;
-      display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
-    }
+    /* ── Saving ── */
+    .saving-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
     .saving-overlay.show { display: flex; }
-    .saving-spinner {
-      width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1);
-      border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite;
-    }
+    .saving-spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
     .saving-msg { font-size: 0.9375rem; color: var(--muted); }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      background: var(--panel); border: 1px solid var(--divider);
-      border-radius: 8px; padding: 12px 20px; font-size: 0.875rem; font-weight: 500;
-      z-index: 300; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--panel); border: 1px solid var(--divider); border-radius: 8px; padding: 12px 20px; font-size: 0.875rem; font-weight: 500; z-index: 300; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
     .toast.show { display: block; }
     .toast.ok { border-color: rgba(0,232,122,0.3); color: var(--green); }
     .toast.err { border-color: rgba(255,77,77,0.3); color: var(--danger); }
@@ -225,10 +173,79 @@
     </div>
   </header>
 
-  <div class="app-body">
-    <div class="github-config" id="github-config">
-      <h3>Configuração GitHub</h3>
-      <div class="github-config-grid">
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="site">Edição do Site</button>
+    <button class="tab-btn" data-tab="produtos">Produtos</button>
+    <button class="tab-btn" data-tab="config">Configurações</button>
+  </div>
+
+  <!-- ── TAB: EDIÇÃO DO SITE ── -->
+  <div class="tab-content active" id="tab-site">
+
+    <div class="section-card">
+      <div class="section-card-title"><span class="dot"></span>Sobre Nós</div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Parágrafo 1</label>
+        <textarea id="sobre-p1" rows="3"></textarea>
+        <p class="form-hint">Podes usar &lt;strong&gt;texto&lt;/strong&gt; para negrito.</p>
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Parágrafo 2</label>
+        <textarea id="sobre-p2" rows="3"></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label>Parágrafo 3</label>
+        <textarea id="sobre-p3" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Estatísticas</label>
+        <div class="stats-grid" id="stats-grid"></div>
+      </div>
+      <div class="section-card-footer">
+        <button class="btn btn-green btn-sm" id="save-site-btn">Guardar Alterações</button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card-title"><span class="dot"></span>Contacto</div>
+      <div class="form-row" style="margin-bottom:14px">
+        <div class="form-group">
+          <label>Instagram (sem @)</label>
+          <input type="text" id="ct-instagram" placeholder="smokless_" />
+        </div>
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="text" id="ct-whatsapp" placeholder="351999999999" />
+          <p class="form-hint">Código do país + número, sem espaços. Ex: 351912345678</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Morada</label>
+        <textarea id="ct-morada" rows="3" placeholder="Rua 22, 393 Loja C&#10;4500-273 Espinho&#10;Portugal"></textarea>
+      </div>
+      <div class="section-card-footer">
+        <button class="btn btn-green btn-sm" id="save-contact-btn">Guardar Alterações</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── TAB: PRODUTOS ── -->
+  <div class="tab-content" id="tab-produtos">
+    <div class="products-header">
+      <h2>Produtos</h2>
+      <button class="btn btn-green btn-sm" id="add-btn">+ Adicionar Produto</button>
+    </div>
+    <div class="tipo-filters" id="tipo-filters"></div>
+    <div id="product-list"></div>
+  </div>
+
+  <!-- ── TAB: CONFIGURAÇÕES ── -->
+  <div class="tab-content" id="tab-config">
+    <div class="section-card">
+      <div class="section-card-title"><span class="dot"></span>GitHub</div>
+      <div class="form-row" style="margin-bottom:14px">
         <div class="form-group">
           <label>Utilizador GitHub</label>
           <input type="text" id="gh-user" placeholder="userm4c" />
@@ -237,36 +254,29 @@
           <label>Repositório</label>
           <input type="text" id="gh-repo" placeholder="smokless-site" />
         </div>
-        <div class="form-group" style="grid-column:1/-1">
-          <label>Token de Acesso (scope: contents write)</label>
-          <input type="password" id="gh-token" placeholder="github_pat_..." />
-        </div>
+      </div>
+      <div class="form-group">
+        <label>Token de Acesso (scope: contents write)</label>
+        <input type="password" id="gh-token" placeholder="github_pat_..." />
       </div>
       <p class="github-status" id="gh-status">Preenche os campos acima para activar a gravação automática.</p>
-      <div style="margin-top:12px;display:flex;gap:10px;">
-        <button class="btn btn-outline btn-sm" id="gh-save-btn">Guardar configuração</button>
+      <div class="section-card-footer" style="gap:10px;display:flex;justify-content:flex-end;">
         <button class="btn btn-outline btn-sm" id="gh-test-btn">Testar ligação</button>
+        <button class="btn btn-green btn-sm" id="gh-save-btn">Guardar configuração</button>
       </div>
     </div>
-
-    <div class="section-head">
-      <h2>Produtos</h2>
-      <button class="btn btn-green btn-sm" id="add-btn">+ Adicionar Produto</button>
-    </div>
-    <div class="product-list" id="product-list"></div>
   </div>
 </div>
 
-<!-- ── MODAL EDITOR ── -->
+<!-- ── MODAL EDITOR DE PRODUTO ── -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal-box">
     <div class="modal-header">
       <span class="modal-title" id="modal-title">Adicionar Produto</span>
       <button class="modal-close-btn" id="modal-close-btn">✕</button>
     </div>
-
     <div class="modal-body">
-      <div class="form-row">
+      <div class="modal-form-row">
         <div class="form-group">
           <label>Tipo</label>
           <input type="text" id="edit-tipo" placeholder="Ex: KIT, MOD, POD SYSTEM..." />
@@ -276,49 +286,36 @@
           <input type="text" id="edit-nome" placeholder="Ex: Vaporesso Armor Max 220W" />
         </div>
       </div>
-
       <div class="form-group">
-        <label>Pasta (nome da pasta em assets/produtos/)</label>
+        <label>Pasta (assets/produtos/)</label>
         <input type="text" id="edit-pasta" placeholder="Ex: Vaporesso Armor Max 220W" />
       </div>
-
       <div class="form-group">
         <label>Descrição curta</label>
         <textarea id="edit-desc" rows="2" placeholder="Resumo das características principais..."></textarea>
       </div>
-
       <div class="form-group">
         <label>Descrição detalhada</label>
         <textarea id="edit-desc-detail" rows="4" placeholder="Descrição completa do produto..."></textarea>
       </div>
-
       <div class="form-group">
         <label>Características</label>
         <div class="carac-list" id="carac-list"></div>
         <button class="carac-add-btn" id="carac-add-btn">+ Adicionar característica</button>
       </div>
-
       <div class="form-group">
-        <label>Imagem Principal (miniatura do cartão)</label>
+        <label>Imagem Principal</label>
         <div class="principal-wrap">
           <div class="principal-preview" id="principal-preview">○</div>
-          <label class="upload-label">
-            Substituir imagem principal
-            <input type="file" id="principal-input" accept="image/*" />
-          </label>
+          <label class="upload-label">Substituir imagem principal<input type="file" id="principal-input" accept="image/*" /></label>
         </div>
       </div>
-
       <div class="form-group">
         <label>Imagens da Galeria</label>
         <div class="gallery-grid" id="gallery-grid"></div>
-        <label class="upload-label">
-          + Adicionar imagens à galeria
-          <input type="file" id="gallery-input" accept="image/*" multiple />
-        </label>
-        <p style="font-size:0.75rem;color:var(--muted);margin-top:6px;">As imagens são numeradas automaticamente (1, 2, 3...). Se a galeria estiver vazia, só a imagem principal é mostrada.</p>
+        <label class="upload-label">+ Adicionar imagens<input type="file" id="gallery-input" accept="image/*" multiple /></label>
+        <p class="form-hint" style="margin-top:6px">Numeradas automaticamente (1, 2, 3...). Se a galeria estiver vazia, só a imagem principal é mostrada.</p>
       </div>
-
       <div class="form-group">
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-size:0.875rem;font-weight:500;letter-spacing:0;">
           <input type="checkbox" id="edit-destaque" style="width:16px;height:16px;accent-color:var(--green);" />
@@ -326,7 +323,6 @@
         </label>
       </div>
     </div>
-
     <div class="modal-footer">
       <button class="btn btn-outline" id="modal-cancel-btn">Cancelar</button>
       <button class="btn btn-green" id="modal-save-btn">Guardar</button>
@@ -334,12 +330,10 @@
   </div>
 </div>
 
-<!-- ── SAVING ── -->
 <div class="saving-overlay" id="saving-overlay">
   <div class="saving-spinner"></div>
   <p class="saving-msg" id="saving-msg">A guardar...</p>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -351,232 +345,232 @@
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  // ── Toast ──
+  // ── UI helpers ──
   function toast(msg, type = 'ok') {
     const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.className = `toast show ${type}`;
+    el.textContent = msg; el.className = `toast show ${type}`;
     setTimeout(() => el.classList.remove('show'), 3500);
   }
 
-  // ── Saving overlay ──
   function setSaving(show, msg = 'A guardar...') {
     document.getElementById('saving-msg').textContent = msg;
     document.getElementById('saving-overlay').classList.toggle('show', show);
   }
 
-  // ── GitHub helpers ──
+  // ── Tabs ──
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+    });
+  });
+
+  // ── GitHub ──
   function getGhConfig() {
-    return {
-      user: localStorage.getItem('gh_user') || '',
-      repo: localStorage.getItem('gh_repo') || '',
-      token: localStorage.getItem('gh_token') || '',
-    };
+    return { user: localStorage.getItem('gh_user') || '', repo: localStorage.getItem('gh_repo') || '', token: localStorage.getItem('gh_token') || '' };
   }
 
   function ghHeaders() {
-    const { token } = getGhConfig();
-    return { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' };
+    return { Authorization: `Bearer ${getGhConfig().token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' };
   }
 
   function ghUrl(path) {
     const { user, repo } = getGhConfig();
-    const encoded = path.split('/').map(encodeURIComponent).join('/');
-    return `https://api.github.com/repos/${user}/${repo}/contents/${encoded}`;
+    return `https://api.github.com/repos/${user}/${repo}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
   }
 
   async function ghGetFile(path) {
     const { user, repo, token } = getGhConfig();
     if (!user || !repo || !token) return null;
     const res = await fetch(ghUrl(path), { headers: ghHeaders() });
-    if (!res.ok) return null;
-    return res.json();
-  }
-
-  async function ghPutFile(path, contentB64, sha, message) {
-    const body = { message, content: contentB64 };
-    if (sha) body.sha = sha;
-    const res = await fetch(ghUrl(path), {
-      method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)
-    });
     return res.ok ? res.json() : null;
   }
 
-  // ── products.js helpers ──
-  let fileSha = null;
-
-  async function loadProductsFromGitHub() {
-    const file = await ghGetFile('products.js');
-    if (!file) return null;
-    fileSha = file.sha;
-    const content = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
-    const match = content.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*?\]);/);
-    return match ? JSON.parse(match[1]) : null;
+  async function ghPutFile(path, b64, sha, message) {
+    const body = { message, content: b64 };
+    if (sha) body.sha = sha;
+    const res = await fetch(ghUrl(path), { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
+    return res.ok ? res.json() : null;
   }
 
-  async function saveProductsToGitHub(products) {
-    const js = `window.PRODUCTS = ${JSON.stringify(products, null, 2)};\n`;
-    const b64 = btoa(unescape(encodeURIComponent(js)));
-    const result = await ghPutFile('products.js', b64, fileSha, 'chore: actualizar produtos via admin');
-    if (result) fileSha = result.content.sha;
-    return !!result;
-  }
-
-  // ── Image upload ──
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function fileToPreviewUrl(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function uploadImage(pasta, filename, file) {
-    const path = `assets/produtos/${pasta}/${filename}`;
-    const existing = await ghGetFile(path);
-    const sha = existing ? existing.sha : null;
-    const b64 = await fileToBase64(file);
-    const result = await ghPutFile(path, b64, sha, `chore: upload imagem ${filename}`);
-    return !!result;
-  }
-
-  // ── State ──
+  // ── products.js ──
   let products = [];
+  let productsSha = null;
+
+  async function loadProducts() {
+    const file = await ghGetFile('products.js');
+    if (!file) return false;
+    productsSha = file.sha;
+    const txt = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
+    const m = txt.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*?\]);/);
+    if (m) { products = JSON.parse(m[1]); return true; }
+    return false;
+  }
+
+  async function saveProducts() {
+    const js = `window.PRODUCTS = ${JSON.stringify(products, null, 2)};\n`;
+    const r = await ghPutFile('products.js', btoa(unescape(encodeURIComponent(js))), productsSha, 'chore: actualizar produtos via admin');
+    if (r) productsSha = r.content.sha;
+    return !!r;
+  }
+
+  // ── content.js ──
+  let siteContent = { sobre: { paragrafos: ['', '', ''], stats: [] }, contacto: { instagram: '', whatsapp: '', morada: '' } };
+  let contentSha = null;
+
+  async function loadContent() {
+    const file = await ghGetFile('content.js');
+    if (!file) return false;
+    contentSha = file.sha;
+    const txt = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
+    const m = txt.match(/window\.CONTENT\s*=\s*(\{[\s\S]*?\});/);
+    if (m) { siteContent = JSON.parse(m[1]); return true; }
+    return false;
+  }
+
+  async function saveContent() {
+    const js = `window.CONTENT = ${JSON.stringify(siteContent, null, 2)};\n`;
+    const r = await ghPutFile('content.js', btoa(unescape(encodeURIComponent(js))), contentSha, 'chore: actualizar conteúdo do site via admin');
+    if (r) contentSha = r.content.sha;
+    return !!r;
+  }
+
+  // ── Render site editor ──
+  function renderSiteEditor() {
+    const s = siteContent.sobre;
+    document.getElementById('sobre-p1').value = s.paragrafos?.[0] || '';
+    document.getElementById('sobre-p2').value = s.paragrafos?.[1] || '';
+    document.getElementById('sobre-p3').value = s.paragrafos?.[2] || '';
+
+    const statsGrid = document.getElementById('stats-grid');
+    statsGrid.innerHTML = (s.stats || []).map((st, i) => `
+      <div class="stat-editor">
+        <div class="form-group">
+          <label>Valor ${i + 1}</label>
+          <input type="text" class="stat-valor" data-idx="${i}" value="${st.valor}" />
+        </div>
+        <div class="form-group">
+          <label>Legenda ${i + 1}</label>
+          <input type="text" class="stat-label-inp" data-idx="${i}" value="${st.label}" />
+        </div>
+      </div>`).join('');
+
+    const ct = siteContent.contacto;
+    document.getElementById('ct-instagram').value = ct.instagram || '';
+    document.getElementById('ct-whatsapp').value = ct.whatsapp || '';
+    document.getElementById('ct-morada').value = ct.morada || '';
+  }
+
+  // ── Save site content ──
+  async function saveSobreSection() {
+    siteContent.sobre.paragrafos = [
+      document.getElementById('sobre-p1').value.trim(),
+      document.getElementById('sobre-p2').value.trim(),
+      document.getElementById('sobre-p3').value.trim(),
+    ];
+    siteContent.sobre.stats = (siteContent.sobre.stats || []).map((st, i) => ({
+      valor: document.querySelector(`.stat-valor[data-idx="${i}"]`)?.value.trim() || st.valor,
+      label: document.querySelector(`.stat-label-inp[data-idx="${i}"]`)?.value.trim() || st.label,
+    }));
+    setSaving(true, 'A guardar conteúdo do site...');
+    const ok = await saveContent();
+    setSaving(false);
+    toast(ok ? 'Secção "Sobre" guardada.' : 'Erro ao guardar.', ok ? 'ok' : 'err');
+  }
+
+  async function saveContactSection() {
+    siteContent.contacto = {
+      instagram: document.getElementById('ct-instagram').value.trim(),
+      whatsapp: document.getElementById('ct-whatsapp').value.trim(),
+      morada: document.getElementById('ct-morada').value,
+    };
+    setSaving(true, 'A guardar contactos...');
+    const ok = await saveContent();
+    setSaving(false);
+    toast(ok ? 'Contactos guardados.' : 'Erro ao guardar.', ok ? 'ok' : 'err');
+  }
+
+  // ── Render products tab ──
+  let activeFilter = 'Todos';
+
+  function renderTipoFilters() {
+    const tipos = ['Todos', ...new Set(products.map(p => p.tipo).filter(Boolean).sort())];
+    document.getElementById('tipo-filters').innerHTML = tipos.map(t => `
+      <button class="tipo-chip ${t === activeFilter ? 'active' : ''}" onclick="setFilter('${t}')">${t}</button>`).join('');
+  }
+
+  function setFilter(tipo) {
+    activeFilter = tipo;
+    renderTipoFilters();
+    renderProductList();
+  }
+
+  function renderProductList() {
+    const list = document.getElementById('product-list');
+    const filtered = activeFilter === 'Todos' ? products : products.filter(p => p.tipo === activeFilter);
+
+    if (!filtered.length) {
+      list.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem produtos nesta categoria.</p>';
+      return;
+    }
+
+    const groups = {};
+    filtered.forEach(p => {
+      const t = p.tipo || 'Sem tipo';
+      if (!groups[t]) groups[t] = [];
+      groups[t].push(p);
+    });
+
+    list.innerHTML = Object.keys(groups).sort().map(tipo => `
+      <div class="category-block">
+        <div class="category-label">${tipo} (${groups[tipo].length})</div>
+        <div class="product-rows">
+          ${groups[tipo].map(p => {
+            const src = p.pasta ? `../assets/produtos/${p.pasta}/principal.png` : '';
+            return `
+              <div class="product-row">
+                <div class="product-row-img">
+                  ${src ? `<img src="${src}" alt="${p.nome}" onerror="this.parentElement.innerHTML='○'" />` : '○'}
+                </div>
+                <div class="product-row-info">
+                  <div class="product-row-nome">${p.nome}</div>
+                </div>
+                <div class="product-row-actions">
+                  <button class="btn btn-outline btn-sm" onclick="openProductModal(${p.id})">Editar</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  // ── Product modal ──
   let editingId = null;
   let currentGallery = [];
   let pendingUploads = [];
   let pendingPrincipal = null;
 
-  function nextId() {
-    return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-  }
+  function nextId() { return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; }
 
-  // ── Product list ──
-  function renderList() {
-    const list = document.getElementById('product-list');
-    if (!products.length) {
-      list.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem produtos adicionados.</p>';
-      return;
-    }
-    list.innerHTML = products.map(p => {
-      const imgSrc = p.pasta ? `../assets/produtos/${p.pasta}/principal.png` : '';
-      return `
-        <div class="product-row">
-          <div class="product-row-img">
-            ${imgSrc ? `<img src="${imgSrc}" alt="${p.nome}" onerror="this.parentElement.innerHTML='○'" />` : '○'}
-          </div>
-          <div class="product-row-info">
-            <div class="product-row-tipo">${p.tipo || ''}</div>
-            <div class="product-row-nome">${p.nome}</div>
-          </div>
-          <div class="product-row-actions">
-            <button class="btn btn-outline btn-sm" onclick="openModal(${p.id})">Editar</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
-          </div>
-        </div>`;
-    }).join('');
-  }
-
-  // ── Características ──
-  function renderCaracteristicas(items) {
-    const list = document.getElementById('carac-list');
-    list.innerHTML = items.map((c, i) => `
-      <div class="carac-row">
-        <input type="text" value="${c.replace(/"/g, '&quot;')}" placeholder="Ex: Potência máxima: 200W" />
-        <button class="carac-remove" onclick="removeCarac(this)" aria-label="Remover">×</button>
-      </div>`).join('');
-  }
-
-  function addCarac() {
-    const list = document.getElementById('carac-list');
-    const row = document.createElement('div');
-    row.className = 'carac-row';
-    row.innerHTML = `<input type="text" placeholder="Ex: Potência máxima: 200W" /><button class="carac-remove" onclick="removeCarac(this)" aria-label="Remover">×</button>`;
-    list.appendChild(row);
-    row.querySelector('input').focus();
-  }
-
-  function removeCarac(btn) {
-    btn.parentElement.remove();
-  }
-
-  function getCaracteristicas() {
-    return Array.from(document.querySelectorAll('#carac-list .carac-row input'))
-      .map(i => i.value.trim()).filter(Boolean);
-  }
-
-  // ── Principal preview ──
-  function renderPrincipalPreview(pasta, overrideSrc) {
-    const el = document.getElementById('principal-preview');
-    const src = overrideSrc || (pasta ? `../assets/produtos/${pasta}/principal.png` : null);
-    if (src) {
-      el.innerHTML = `<img src="${src}" alt="principal" onerror="this.parentElement.innerHTML='○'" />`;
-    } else {
-      el.innerHTML = '○';
-    }
-  }
-
-  // ── Gallery ──
-  function renderGallery() {
-    const pasta = document.getElementById('edit-pasta').value.trim();
-    const grid = document.getElementById('gallery-grid');
-
-    const existingHtml = currentGallery.map((f, i) => {
-      const src = pasta ? `../assets/produtos/${pasta}/${f}` : null;
-      return `
-        <div class="gallery-thumb">
-          ${src ? `<img src="${src}" alt="${f}" onerror="this.style.display='none'" />` : ''}
-          <button class="thumb-remove" onclick="removeExisting(${i})">×</button>
-          <span class="thumb-label">${f}</span>
-        </div>`;
-    }).join('');
-
-    const pendingHtml = pendingUploads.map((u, i) => `
-      <div class="gallery-thumb pending">
-        <img src="${u.preview}" alt="${u.file.name}" />
-        <button class="thumb-remove" onclick="removePending(${i})">×</button>
-        <span class="thumb-label">${u.file.name}</span>
-      </div>`).join('');
-
-    grid.innerHTML = existingHtml + pendingHtml;
-  }
-
-  function removeExisting(idx) {
-    currentGallery.splice(idx, 1);
-    renderGallery();
-  }
-
-  function removePending(idx) {
-    pendingUploads.splice(idx, 1);
-    renderGallery();
-  }
-
-  // ── Open / close modal ──
-  function openModal(id = null) {
+  function openProductModal(id = null) {
     const p = id ? products.find(x => x.id === id) : null;
     editingId = id;
-    currentGallery = p && p.imagens ? [...p.imagens] : [];
+    currentGallery = p?.imagens ? [...p.imagens] : [];
     pendingUploads = [];
     pendingPrincipal = null;
 
     document.getElementById('modal-title').textContent = p ? 'Editar Produto' : 'Adicionar Produto';
-    document.getElementById('edit-tipo').value = p?.tipo || '';
-    document.getElementById('edit-nome').value = p?.nome || '';
-    document.getElementById('edit-pasta').value = p?.pasta || '';
-    document.getElementById('edit-desc').value = p?.descricao || '';
-    document.getElementById('edit-desc-detail').value = p?.descricao_detalhada || '';
-    document.getElementById('edit-destaque').checked = p ? !!p.destaque : true;
-    document.getElementById('principal-input').value = '';
-    document.getElementById('gallery-input').value = '';
+    document.getElementById('edit-tipo').value         = p?.tipo || '';
+    document.getElementById('edit-nome').value         = p?.nome || '';
+    document.getElementById('edit-pasta').value        = p?.pasta || '';
+    document.getElementById('edit-desc').value         = p?.descricao || '';
+    document.getElementById('edit-desc-detail').value  = p?.descricao_detalhada || '';
+    document.getElementById('edit-destaque').checked   = p ? !!p.destaque : true;
+    document.getElementById('principal-input').value   = '';
+    document.getElementById('gallery-input').value     = '';
 
     renderCaracteristicas(p?.caracteristicas || []);
     renderPrincipalPreview(p?.pasta);
@@ -585,37 +579,89 @@
     document.getElementById('modal-overlay').classList.add('open');
   }
 
-  function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
+  function closeProductModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+  function renderCaracteristicas(items) {
+    document.getElementById('carac-list').innerHTML = items.map(c => `
+      <div class="carac-row">
+        <input type="text" value="${c.replace(/"/g, '&quot;')}" placeholder="Ex: Potência máxima: 200W" />
+        <button class="carac-remove" onclick="this.parentElement.remove()">×</button>
+      </div>`).join('');
   }
 
-  // ── Save ──
+  function addCarac() {
+    const row = document.createElement('div');
+    row.className = 'carac-row';
+    row.innerHTML = `<input type="text" placeholder="Ex: Potência máxima: 200W" /><button class="carac-remove" onclick="this.parentElement.remove()">×</button>`;
+    document.getElementById('carac-list').appendChild(row);
+    row.querySelector('input').focus();
+  }
+
+  function getCaracteristicas() {
+    return Array.from(document.querySelectorAll('#carac-list .carac-row input')).map(i => i.value.trim()).filter(Boolean);
+  }
+
+  function renderPrincipalPreview(pasta, src) {
+    const el = document.getElementById('principal-preview');
+    const url = src || (pasta ? `../assets/produtos/${pasta}/principal.png` : null);
+    el.innerHTML = url ? `<img src="${url}" alt="principal" onerror="this.parentElement.innerHTML='○'" />` : '○';
+  }
+
+  function renderGallery() {
+    const pasta = document.getElementById('edit-pasta').value.trim();
+    document.getElementById('gallery-grid').innerHTML =
+      currentGallery.map((f, i) => `
+        <div class="gallery-thumb">
+          ${pasta ? `<img src="../assets/produtos/${pasta}/${f}" alt="${f}" onerror="this.style.display='none'" />` : ''}
+          <button class="thumb-remove" onclick="removeExisting(${i})">×</button>
+          <span class="thumb-label">${f}</span>
+        </div>`).join('') +
+      pendingUploads.map((u, i) => `
+        <div class="gallery-thumb pending">
+          <img src="${u.preview}" alt="${u.file.name}" />
+          <button class="thumb-remove" onclick="removePending(${i})">×</button>
+          <span class="thumb-label">${u.file.name}</span>
+        </div>`).join('');
+  }
+
+  function removeExisting(i) { currentGallery.splice(i, 1); renderGallery(); }
+  function removePending(i)  { pendingUploads.splice(i, 1); renderGallery(); }
+
+  // ── Image upload ──
+  function fileToBase64(f) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; r.readAsDataURL(f); }); }
+  function fileToPreview(f) { return new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(f); }); }
+
+  async function uploadImage(pasta, filename, file) {
+    const path = `assets/produtos/${pasta}/${filename}`;
+    const existing = await ghGetFile(path);
+    const b64 = await fileToBase64(file);
+    const r = await ghPutFile(path, b64, existing?.sha || null, `chore: upload ${filename}`);
+    return !!r;
+  }
+
+  // ── Save product ──
   async function saveProduct() {
-    const tipo   = document.getElementById('edit-tipo').value.trim();
-    const nome   = document.getElementById('edit-nome').value.trim();
-    const pasta  = document.getElementById('edit-pasta').value.trim();
-    const desc   = document.getElementById('edit-desc').value.trim();
-    const descD  = document.getElementById('edit-desc-detail').value.trim();
-    const dest   = document.getElementById('edit-destaque').checked;
-    const carac  = getCaracteristicas();
+    const tipo  = document.getElementById('edit-tipo').value.trim();
+    const nome  = document.getElementById('edit-nome').value.trim();
+    const pasta = document.getElementById('edit-pasta').value.trim();
+    const desc  = document.getElementById('edit-desc').value.trim();
+    const descD = document.getElementById('edit-desc-detail').value.trim();
+    const dest  = document.getElementById('edit-destaque').checked;
+    const carac = getCaracteristicas();
 
     if (!nome) { toast('O nome é obrigatório.', 'err'); return; }
 
     setSaving(true, 'A preparar...');
 
-    // Upload imagem principal
     if (pendingPrincipal && pasta) {
       setSaving(true, 'A enviar imagem principal...');
       const ext = pendingPrincipal.file.name.split('.').pop().toLowerCase();
       await uploadImage(pasta, `principal.${ext}`, pendingPrincipal.file);
     }
 
-    // Upload imagens de galeria
     let newGallery = [...currentGallery];
     if (pendingUploads.length && pasta) {
-      const maxNum = currentGallery.reduce((m, f) => {
-        const n = parseInt(f); return isNaN(n) ? m : Math.max(m, n);
-      }, 0);
+      const maxNum = currentGallery.reduce((m, f) => { const n = parseInt(f); return isNaN(n) ? m : Math.max(m, n); }, 0);
       for (let i = 0; i < pendingUploads.length; i++) {
         const { file } = pendingUploads[i];
         const ext = file.name.split('.').pop().toLowerCase();
@@ -626,70 +672,54 @@
       }
     }
 
-    const product = {
-      id: editingId || nextId(),
-      tipo, nome, pasta,
-      descricao: desc,
-      descricao_detalhada: descD,
-      caracteristicas: carac,
-      imagens: newGallery.length ? newGallery : null,
-      destaque: dest,
-    };
+    const product = { id: editingId || nextId(), tipo, nome, pasta, descricao: desc, descricao_detalhada: descD, caracteristicas: carac, imagens: newGallery.length ? newGallery : null, destaque: dest };
 
-    if (editingId) {
-      products = products.map(p => p.id === editingId ? product : p);
-    } else {
-      products.push(product);
-    }
+    if (editingId) { products = products.map(p => p.id === editingId ? product : p); }
+    else { products.push(product); }
 
     setSaving(true, 'A guardar products.js...');
-    const ok = await saveProductsToGitHub(products);
+    const ok = await saveProducts();
     setSaving(false);
 
-    if (ok) {
-      toast('Guardado e publicado no GitHub.');
-      closeModal();
-      renderList();
-    } else {
-      toast('Erro ao guardar. Verifica a configuração GitHub.', 'err');
-    }
+    if (ok) { toast('Produto guardado.'); closeProductModal(); renderTipoFilters(); renderProductList(); }
+    else { toast('Erro ao guardar. Verifica o GitHub token.', 'err'); }
   }
 
-  // ── Delete ──
+  // ── Delete product ──
   async function deleteProduct(id) {
     if (!confirm('Eliminar este produto?')) return;
     products = products.filter(p => p.id !== id);
-    setSaving(true, 'A eliminar produto...');
-    await saveProductsToGitHub(products);
+    setSaving(true, 'A eliminar...');
+    await saveProducts();
     setSaving(false);
-    renderList();
+    renderTipoFilters();
+    renderProductList();
     toast('Produto eliminado.');
   }
 
   // ── Init ──
   async function initApp() {
     const cfg = getGhConfig();
-    document.getElementById('gh-user').value = cfg.user;
-    document.getElementById('gh-repo').value = cfg.repo;
+    document.getElementById('gh-user').value  = cfg.user;
+    document.getElementById('gh-repo').value  = cfg.repo;
     document.getElementById('gh-token').value = cfg.token;
 
     if (cfg.user && cfg.repo && cfg.token) {
-      setSaving(true, 'A carregar produtos...');
-      const loaded = await loadProductsFromGitHub();
+      setSaving(true, 'A carregar dados...');
+      await Promise.all([loadProducts(), loadContent()]);
       setSaving(false);
-      if (loaded) {
-        products = loaded;
-        document.getElementById('gh-status').textContent = `✓ ${products.length} produtos carregados do repositório.`;
-        document.getElementById('gh-status').className = 'github-status ok';
-      }
+      const el = document.getElementById('gh-status');
+      el.textContent = `✓ ${products.length} produtos carregados.`;
+      el.className = 'github-status ok';
     }
-    renderList();
+    renderSiteEditor();
+    renderTipoFilters();
+    renderProductList();
   }
 
   // ── Events ──
   document.getElementById('login-btn').addEventListener('click', async () => {
-    const pwd = document.getElementById('pwd').value;
-    const hash = await sha256(pwd);
+    const hash = await sha256(document.getElementById('pwd').value);
     if (hash === PASSWORD_HASH) {
       sessionStorage.setItem('admin_auth', '1');
       document.getElementById('login-screen').style.display = 'none';
@@ -699,40 +729,29 @@
       document.getElementById('login-err').style.display = 'block';
     }
   });
+  document.getElementById('pwd').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-btn').click(); });
+  document.getElementById('logout-btn').addEventListener('click', () => { sessionStorage.removeItem('admin_auth'); location.reload(); });
 
-  document.getElementById('pwd').addEventListener('keydown', e => {
-    if (e.key === 'Enter') document.getElementById('login-btn').click();
-  });
+  document.getElementById('save-site-btn').addEventListener('click', saveSobreSection);
+  document.getElementById('save-contact-btn').addEventListener('click', saveContactSection);
 
-  document.getElementById('logout-btn').addEventListener('click', () => {
-    sessionStorage.removeItem('admin_auth');
-    location.reload();
-  });
-
-  document.getElementById('add-btn').addEventListener('click', () => openModal());
-  document.getElementById('modal-close-btn').addEventListener('click', closeModal);
-  document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
-  document.getElementById('modal-overlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
-  });
-
+  document.getElementById('add-btn').addEventListener('click', () => openProductModal());
+  document.getElementById('modal-close-btn').addEventListener('click', closeProductModal);
+  document.getElementById('modal-cancel-btn').addEventListener('click', closeProductModal);
+  document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === document.getElementById('modal-overlay')) closeProductModal(); });
   document.getElementById('modal-save-btn').addEventListener('click', saveProduct);
-
   document.getElementById('carac-add-btn').addEventListener('click', addCarac);
 
   document.getElementById('principal-input').addEventListener('change', async e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const preview = await fileToPreviewUrl(file);
+    const file = e.target.files[0]; if (!file) return;
+    const preview = await fileToPreview(file);
     pendingPrincipal = { file, preview };
     renderPrincipalPreview(null, preview);
   });
 
   document.getElementById('gallery-input').addEventListener('change', async e => {
-    const files = Array.from(e.target.files);
-    for (const file of files) {
-      const preview = await fileToPreviewUrl(file);
-      pendingUploads.push({ file, preview });
+    for (const file of Array.from(e.target.files)) {
+      pendingUploads.push({ file, preview: await fileToPreview(file) });
     }
     e.target.value = '';
     renderGallery();
@@ -744,23 +763,22 @@
   });
 
   document.getElementById('gh-save-btn').addEventListener('click', () => {
-    localStorage.setItem('gh_user', document.getElementById('gh-user').value.trim());
-    localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
+    localStorage.setItem('gh_user',  document.getElementById('gh-user').value.trim());
+    localStorage.setItem('gh_repo',  document.getElementById('gh-repo').value.trim());
     localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
     toast('Configuração guardada.');
   });
 
   document.getElementById('gh-test-btn').addEventListener('click', async () => {
-    localStorage.setItem('gh_user', document.getElementById('gh-user').value.trim());
-    localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
+    localStorage.setItem('gh_user',  document.getElementById('gh-user').value.trim());
+    localStorage.setItem('gh_repo',  document.getElementById('gh-repo').value.trim());
     localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
     setSaving(true, 'A testar ligação...');
-    const loaded = await loadProductsFromGitHub();
+    const [pOk, cOk] = await Promise.all([loadProducts(), loadContent()]);
     setSaving(false);
     const el = document.getElementById('gh-status');
-    if (loaded !== null) {
-      products = loaded;
-      renderList();
+    if (pOk) {
+      renderSiteEditor(); renderTipoFilters(); renderProductList();
       el.textContent = `✓ Ligação bem-sucedida. ${products.length} produtos encontrados.`;
       el.className = 'github-status ok';
       toast('GitHub configurado com sucesso.');
