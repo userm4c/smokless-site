@@ -61,38 +61,13 @@ async function probeAny(base, name) {
   return null;
 }
 
-const imageCache = new Map();
-
-const BATCH = 6;
-
-async function discoverImages(p) {
-  if (imageCache.has(p.id)) return imageCache.get(p.id);
-  if (!p.pasta) {
-    const result = p.imagem ? [p.imagem] : [];
-    imageCache.set(p.id, result);
-    return result;
-  }
+function discoverImages(p) {
+  if (!p.pasta) return p.imagem ? [p.imagem] : [];
   const base = pastaBase(p);
-  const extras = [];
-  let start = 1;
-  while (true) {
-    const batch = await Promise.all(
-      Array.from({ length: BATCH }, (_, i) => probeAny(base, start + i))
-    );
-    const cut = batch.findIndex((s) => !s);
-    extras.push(...(cut === -1 ? batch : batch.slice(0, cut)));
-    if (cut !== -1) break;
-    start += BATCH;
+  if (p.imagens && p.imagens.length) {
+    return p.imagens.map((f) => base + f);
   }
-  let result;
-  if (extras.length) {
-    result = extras;
-  } else {
-    const principal = await probeAny(base, 'principal');
-    result = [principal].filter(Boolean);
-  }
-  imageCache.set(p.id, result);
-  return result;
+  return [`${base}principal.png`];
 }
 
 // ── Produtos ──
@@ -137,16 +112,13 @@ const overlay  = document.getElementById('modal-overlay');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.getElementById('modal-close');
 
-async function openModal(p) {
+function openModal(p) {
   if (!p) return;
 
-  // Mostrar modal imediatamente com loader
-  modalBody.innerHTML = `<div class="modal-loading">A carregar...</div>`;
+  const allImages = discoverImages(p);
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   modalClose.focus();
-
-  const allImages = await discoverImages(p);
   let activeIdx = 0;
 
   function setActive(idx) {
