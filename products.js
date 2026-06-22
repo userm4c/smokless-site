@@ -91,8 +91,8 @@ window.PRODUCTS = [
   },
   {
     "id": 6,
-    "tipo": "MOD",
-    "nome": "Lost Vape Centaurus BT200 Box",
+    "tipo": "BOX MOD",
+    "nome": "Lost Vape Centaurus BT200",
     "descricao": "200W, chipset Quest 2.0, dual 18650/21700 e ecrã TFT 1.3\" colorido.",
     "descricao_detalhada": "O Lost Vape Centaurus BT200 é um box mod de alta potência que combina o chipset Quest 2.0 com um ecrã TFT 1.3\" de alta resolução. Compatível com baterias 18650 e 21700, oferece versatilidade máxima e um controlo de temperatura preciso para vapers técnicos.",
     "caracteristicas": [
