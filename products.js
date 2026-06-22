@@ -105,6 +105,7 @@ window.PRODUCTS = [
     "id": 5,
     "tipo": "POD SYSTEM KIT",
     "nome": "Geekvape Sonder Q 2",
+    "pasta": "Geekvape Sonder Q 2 Pod System Kit",
     "descricao": "Pod system compacto com 1000mAh, ecrã OLED e airflow ajustável.",
     "descricao_detalhada": "O Geekvape Sonder Q 2 é um pod system de bolso que não abre mão de funcionalidade. Com bateria de 1000mAh, ecrã OLED e airflow ajustável, oferece um vapor surpreendentemente rico para um dispositivo tão compacto. Compatível com as bobinas da série B, garantindo uma gama vasta de opções de vape.",
     "caracteristicas": [
@@ -117,7 +118,6 @@ window.PRODUCTS = [
       "Activação: botão e draw-activated",
       "Carregamento: USB-C"
     ],
-    "pasta": "Geekvape Sonder Q 2 Pod System Kit",
     "imagens": [
       "1.webp",
       "2.webp",
@@ -136,7 +136,7 @@ window.PRODUCTS = [
       "15.webp",
       "16.webp"
     ],
-    "destaque": true
+    "destaque": false
   },
   {
     "id": 6,
