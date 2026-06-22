@@ -10,65 +10,41 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --green: #00e87a; --canvas: #0a0a0a; --panel: #111; --card: #161616;
-      --divider: rgba(255,255,255,0.08); --text: #fff; --muted: rgba(255,255,255,0.5);
-      --danger: #ff4d4d; --warn: #f59e0b;
+      --divider: rgba(255,255,255,0.08); --text: #fff; --muted: rgba(255,255,255,0.45);
+      --danger: #ff4d4d;
     }
     html { font-size: 16px; }
     body { background: var(--canvas); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 
     /* ── Login ── */
-    #login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+    #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
     .login-box {
-      background: var(--panel);
-      border: 1px solid var(--divider);
-      border-radius: 12px;
-      padding: 40px;
-      width: 100%;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      background: var(--panel); border: 1px solid var(--divider); border-radius: 12px;
+      padding: 40px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px;
     }
-    .login-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      color: var(--green);
-      letter-spacing: 0.05em;
-    }
+    .login-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--green); letter-spacing: 0.05em; }
     .login-subtitle { font-size: 0.875rem; color: var(--muted); }
+
+    /* ── Shared form ── */
     .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-    .form-group input, .form-group select, .form-group textarea {
-      background: var(--card);
-      border: 1px solid var(--divider);
-      border-radius: 6px;
-      padding: 10px 14px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 0.9375rem;
-      transition: border-color 0.2s;
-      width: 100%;
+    .form-group label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .form-group input, .form-group textarea {
+      background: var(--card); border: 1px solid var(--divider); border-radius: 6px;
+      padding: 10px 14px; color: var(--text); font-family: inherit; font-size: 0.9375rem;
+      transition: border-color 0.2s; width: 100%;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      outline: none;
-      border-color: var(--green);
-    }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--green); }
     .form-group textarea { resize: vertical; min-height: 80px; }
-    .form-group select option { background: var(--card); }
+
+    /* ── Buttons ── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
-      padding: 11px 20px; font-size: 0.875rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px;
-      cursor: pointer; border: none; transition: all 0.2s; font-family: inherit;
+      padding: 11px 20px; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; border-radius: 6px; cursor: pointer; border: none;
+      transition: all 0.2s; font-family: inherit;
     }
     .btn-green { background: var(--green); color: #000; }
-    .btn-green:hover { opacity: 0.88; }
+    .btn-green:hover { opacity: 0.85; }
     .btn-outline { background: transparent; border: 1px solid var(--divider); color: var(--muted); }
     .btn-outline:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
     .btn-danger { background: transparent; border: 1px solid rgba(255,77,77,0.3); color: var(--danger); }
@@ -78,97 +54,145 @@
 
     /* ── App ── */
     #app-screen { display: none; }
-
     .app-header {
-      background: var(--panel);
-      border-bottom: 1px solid var(--divider);
-      padding: 0 32px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      background: var(--panel); border-bottom: 1px solid var(--divider);
+      padding: 0 32px; height: 60px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 10;
     }
     .app-header-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--green); }
     .app-header-right { display: flex; align-items: center; gap: 12px; }
     .badge { background: rgba(0,232,122,0.12); color: var(--green); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
-
-    .app-body { max-width: 960px; margin: 0 auto; padding: 40px 32px; }
-
-    .section-head {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .section-head h2 { font-size: 1.25rem; font-weight: 700; }
-
-    /* ── Product list ── */
-    .product-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
-    .product-row {
-      background: var(--card);
-      border: 1px solid var(--divider);
-      border-radius: 8px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .product-row-img {
-      width: 56px; height: 56px; border-radius: 6px;
-      object-fit: cover; background: #1e1e1e; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; color: rgba(255,255,255,0.08);
-    }
-    .product-row-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
-    .product-row-info { flex: 1; min-width: 0; }
-    .product-row-tipo { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); }
-    .product-row-nome { font-size: 0.9375rem; font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .product-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
-
-    /* ── Modal / drawer ── */
-    .drawer-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100;
-      display: none; align-items: flex-end; justify-content: center;
-    }
-    .drawer-overlay.open { display: flex; }
-    .drawer {
-      background: var(--panel);
-      border: 1px solid var(--divider);
-      border-radius: 12px 12px 0 0;
-      width: 100%;
-      max-width: 560px;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .drawer-title { font-size: 1.125rem; font-weight: 700; }
-    .drawer-footer { display: flex; gap: 10px; justify-content: flex-end; padding-top: 8px; }
+    .app-body { max-width: 1000px; margin: 0 auto; padding: 40px 32px; }
 
     /* ── GitHub config ── */
-    .github-config {
-      background: var(--card);
-      border: 1px solid var(--divider);
-      border-radius: 8px;
-      padding: 24px;
-      margin-bottom: 32px;
-    }
+    .github-config { background: var(--card); border: 1px solid var(--divider); border-radius: 8px; padding: 24px; margin-bottom: 32px; }
     .github-config h3 { font-size: 0.9375rem; font-weight: 700; margin-bottom: 16px; }
     .github-config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .github-status { font-size: 0.8125rem; margin-top: 12px; color: var(--muted); }
     .github-status.ok { color: var(--green); }
     .github-status.err { color: var(--danger); }
 
+    /* ── Product list ── */
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .section-head h2 { font-size: 1.25rem; font-weight: 700; }
+    .product-list { display: flex; flex-direction: column; gap: 12px; }
+    .product-row {
+      background: var(--card); border: 1px solid var(--divider); border-radius: 8px;
+      padding: 16px 20px; display: flex; align-items: center; gap: 16px;
+    }
+    .product-row-img {
+      width: 56px; height: 56px; border-radius: 6px; background: #1e1e1e; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: rgba(255,255,255,0.08); overflow: hidden;
+    }
+    .product-row-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-row-info { flex: 1; min-width: 0; }
+    .product-row-tipo { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); }
+    .product-row-nome { font-size: 0.9375rem; font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .product-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    /* ── Modal editor ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100;
+      display: none; align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--panel); border: 1px solid var(--divider); border-radius: 12px;
+      width: 100%; max-width: 680px; max-height: 92vh; display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 24px 28px 20px; border-bottom: 1px solid var(--divider);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .modal-title { font-size: 1.125rem; font-weight: 700; }
+    .modal-close-btn {
+      background: none; border: none; color: var(--muted); font-size: 1.25rem;
+      cursor: pointer; padding: 4px; line-height: 1;
+    }
+    .modal-close-btn:hover { color: var(--text); }
+    .modal-body { padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; flex: 1; }
+    .modal-footer {
+      padding: 16px 28px; border-top: 1px solid var(--divider);
+      display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ── Características ── */
+    .carac-list { display: flex; flex-direction: column; gap: 8px; }
+    .carac-row { display: flex; gap: 8px; align-items: center; }
+    .carac-row input { flex: 1; }
+    .carac-remove {
+      background: none; border: none; color: var(--muted); font-size: 1.1rem;
+      cursor: pointer; padding: 6px; flex-shrink: 0; line-height: 1;
+    }
+    .carac-remove:hover { color: var(--danger); }
+    .carac-add-btn {
+      background: none; border: 1px dashed var(--divider); border-radius: 6px;
+      color: var(--muted); font-size: 0.8125rem; padding: 8px; cursor: pointer;
+      width: 100%; text-align: center; margin-top: 4px; transition: all 0.2s;
+    }
+    .carac-add-btn:hover { border-color: var(--green); color: var(--green); }
+
+    /* ── Galeria upload ── */
+    .gallery-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .gallery-thumb {
+      position: relative; width: 80px; height: 80px; border-radius: 6px;
+      background: var(--card); border: 1px solid var(--divider); overflow: hidden;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-thumb .thumb-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.65); font-size: 0.55rem; padding: 2px 4px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
+    }
+    .gallery-thumb .thumb-remove {
+      position: absolute; top: 3px; right: 3px; width: 18px; height: 18px;
+      background: rgba(0,0,0,0.75); border: none; border-radius: 50%;
+      color: #fff; font-size: 0.7rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; line-height: 1;
+    }
+    .gallery-thumb .thumb-remove:hover { background: var(--danger); }
+    .gallery-thumb.pending { border-color: rgba(0,232,122,0.4); }
+    .upload-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px dashed var(--divider); border-radius: 6px;
+      color: var(--muted); font-size: 0.8125rem; padding: 8px 14px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .upload-label:hover { border-color: var(--green); color: var(--green); }
+    .upload-label input { display: none; }
+
+    /* ── Principal preview ── */
+    .principal-wrap { display: flex; align-items: center; gap: 16px; }
+    .principal-preview {
+      width: 72px; height: 72px; border-radius: 6px; background: var(--card);
+      border: 1px solid var(--divider); overflow: hidden; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 1.5rem;
+    }
+    .principal-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── Saving overlay ── */
+    .saving-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200;
+      display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    }
+    .saving-overlay.show { display: flex; }
+    .saving-spinner {
+      width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    .saving-msg { font-size: 0.9375rem; color: var(--muted); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ── */
     .toast {
       position: fixed; bottom: 24px; right: 24px;
       background: var(--panel); border: 1px solid var(--divider);
-      border-radius: 8px; padding: 12px 20px;
-      font-size: 0.875rem; font-weight: 500;
-      z-index: 200; display: none;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border-radius: 8px; padding: 12px 20px; font-size: 0.875rem; font-weight: 500;
+      z-index: 300; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
     .toast.show { display: block; }
     .toast.ok { border-color: rgba(0,232,122,0.3); color: var(--green); }
@@ -202,10 +226,8 @@
   </header>
 
   <div class="app-body">
-
-    <!-- GitHub config -->
     <div class="github-config" id="github-config">
-      <h3>Configuração GitHub (guarda as alterações no repositório)</h3>
+      <h3>Configuração GitHub</h3>
       <div class="github-config-grid">
         <div class="form-group">
           <label>Utilizador GitHub</label>
@@ -216,76 +238,117 @@
           <input type="text" id="gh-repo" placeholder="smokless-site" />
         </div>
         <div class="form-group" style="grid-column:1/-1">
-          <label>Token de Acesso (Fine-Grained, scope: contents write)</label>
+          <label>Token de Acesso (scope: contents write)</label>
           <input type="password" id="gh-token" placeholder="github_pat_..." />
         </div>
       </div>
       <p class="github-status" id="gh-status">Preenche os campos acima para activar a gravação automática.</p>
-      <div style="margin-top:12px; display:flex; gap:10px;">
+      <div style="margin-top:12px;display:flex;gap:10px;">
         <button class="btn btn-outline btn-sm" id="gh-save-btn">Guardar configuração</button>
         <button class="btn btn-outline btn-sm" id="gh-test-btn">Testar ligação</button>
       </div>
     </div>
 
-    <!-- Product list -->
     <div class="section-head">
       <h2>Produtos</h2>
       <button class="btn btn-green btn-sm" id="add-btn">+ Adicionar Produto</button>
     </div>
     <div class="product-list" id="product-list"></div>
-
   </div>
 </div>
 
-<!-- ── DRAWER (add / edit) ── -->
-<div class="drawer-overlay" id="drawer-overlay">
-  <div class="drawer">
-    <h2 class="drawer-title" id="drawer-title">Adicionar Produto</h2>
-    <input type="hidden" id="edit-id" />
-    <div class="form-group">
-      <label>Tipo</label>
-      <select id="edit-tipo">
-        <option>RTA</option><option>RDA</option><option>RDTA</option>
-        <option>KIT</option><option>MOD</option><option>POD</option>
-        <option>LÍQUIDO</option><option>RESISTÊNCIA</option><option>ACESSÓRIO</option>
-      </select>
+<!-- ── MODAL EDITOR ── -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Adicionar Produto</span>
+      <button class="modal-close-btn" id="modal-close-btn">✕</button>
     </div>
-    <div class="form-group">
-      <label>Nome</label>
-      <input type="text" id="edit-nome" placeholder="Ex: Vaporesso Armour Max" />
+
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo</label>
+          <input type="text" id="edit-tipo" placeholder="Ex: KIT, MOD, POD SYSTEM..." />
+        </div>
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" id="edit-nome" placeholder="Ex: Vaporesso Armor Max 220W" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Pasta (nome da pasta em assets/produtos/)</label>
+        <input type="text" id="edit-pasta" placeholder="Ex: Vaporesso Armor Max 220W" />
+      </div>
+
+      <div class="form-group">
+        <label>Descrição curta</label>
+        <textarea id="edit-desc" rows="2" placeholder="Resumo das características principais..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Descrição detalhada</label>
+        <textarea id="edit-desc-detail" rows="4" placeholder="Descrição completa do produto..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Características</label>
+        <div class="carac-list" id="carac-list"></div>
+        <button class="carac-add-btn" id="carac-add-btn">+ Adicionar característica</button>
+      </div>
+
+      <div class="form-group">
+        <label>Imagem Principal (miniatura do cartão)</label>
+        <div class="principal-wrap">
+          <div class="principal-preview" id="principal-preview">○</div>
+          <label class="upload-label">
+            Substituir imagem principal
+            <input type="file" id="principal-input" accept="image/*" />
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Imagens da Galeria</label>
+        <div class="gallery-grid" id="gallery-grid"></div>
+        <label class="upload-label">
+          + Adicionar imagens à galeria
+          <input type="file" id="gallery-input" accept="image/*" multiple />
+        </label>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:6px;">As imagens são numeradas automaticamente (1, 2, 3...). Se a galeria estiver vazia, só a imagem principal é mostrada.</p>
+      </div>
+
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-size:0.875rem;font-weight:500;letter-spacing:0;">
+          <input type="checkbox" id="edit-destaque" style="width:16px;height:16px;accent-color:var(--green);" />
+          Produto em destaque na página principal
+        </label>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Descrição curta</label>
-      <textarea id="edit-desc" placeholder="Características principais..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>URL da Imagem (ou caminho relativo)</label>
-      <input type="text" id="edit-img" placeholder="assets/produtos/nome-do-produto.jpg" />
-    </div>
-    <div class="form-group">
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-size:0.875rem;">
-        <input type="checkbox" id="edit-destaque" style="width:16px;height:16px;accent-color:var(--green);" />
-        Produto em destaque na página principal
-      </label>
-    </div>
-    <div class="drawer-footer">
-      <button class="btn btn-outline" id="drawer-cancel">Cancelar</button>
-      <button class="btn btn-green" id="drawer-save">Guardar</button>
+
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="modal-cancel-btn">Cancelar</button>
+      <button class="btn btn-green" id="modal-save-btn">Guardar</button>
     </div>
   </div>
+</div>
+
+<!-- ── SAVING ── -->
+<div class="saving-overlay" id="saving-overlay">
+  <div class="saving-spinner"></div>
+  <p class="saving-msg" id="saving-msg">A guardar...</p>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── Senha (hash SHA-256) ──
-  // Para mudar a senha: gerar SHA-256 da nova senha em https://emn178.github.io/online-tools/sha256.html
-  // Senha padrão: smokless2026
+  // ── Senha ──
   const PASSWORD_HASH = '73f1e08af010860aacfe60b86d09b0d628b5332c01f5216ec358bbfa58dd7883';
 
   async function sha256(msg) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
   // ── Toast ──
@@ -294,6 +357,12 @@
     el.textContent = msg;
     el.className = `toast show ${type}`;
     setTimeout(() => el.classList.remove('show'), 3500);
+  }
+
+  // ── Saving overlay ──
+  function setSaving(show, msg = 'A guardar...') {
+    document.getElementById('saving-msg').textContent = msg;
+    document.getElementById('saving-overlay').classList.toggle('show', show);
   }
 
   // ── GitHub helpers ──
@@ -305,134 +374,314 @@
     };
   }
 
-  async function ghGetFile() {
+  function ghHeaders() {
+    const { token } = getGhConfig();
+    return { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' };
+  }
+
+  function ghUrl(path) {
+    const { user, repo } = getGhConfig();
+    const encoded = path.split('/').map(encodeURIComponent).join('/');
+    return `https://api.github.com/repos/${user}/${repo}/contents/${encoded}`;
+  }
+
+  async function ghGetFile(path) {
     const { user, repo, token } = getGhConfig();
     if (!user || !repo || !token) return null;
-    const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, {
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
-    });
+    const res = await fetch(ghUrl(path), { headers: ghHeaders() });
     if (!res.ok) return null;
     return res.json();
   }
 
-  async function ghPutFile(products, sha) {
-    const { user, repo, token } = getGhConfig();
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))));
-    const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, {
-      method: 'PUT',
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'chore: actualizar produtos via admin', content, sha }),
+  async function ghPutFile(path, contentB64, sha, message) {
+    const body = { message, content: contentB64 };
+    if (sha) body.sha = sha;
+    const res = await fetch(ghUrl(path), {
+      method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)
     });
-    return res.ok;
+    return res.ok ? res.json() : null;
   }
 
-  // ── Estado local ──
-  let products = [];
+  // ── products.js helpers ──
   let fileSha = null;
 
-  function loadLocal() {
-    const raw = localStorage.getItem('products');
-    products = raw ? JSON.parse(raw) : [];
+  async function loadProductsFromGitHub() {
+    const file = await ghGetFile('products.js');
+    if (!file) return null;
+    fileSha = file.sha;
+    const content = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
+    const match = content.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*?\]);/);
+    return match ? JSON.parse(match[1]) : null;
   }
 
-  function saveLocal() {
-    localStorage.setItem('products', JSON.stringify(products));
+  async function saveProductsToGitHub(products) {
+    const js = `window.PRODUCTS = ${JSON.stringify(products, null, 2)};\n`;
+    const b64 = btoa(unescape(encodeURIComponent(js)));
+    const result = await ghPutFile('products.js', b64, fileSha, 'chore: actualizar produtos via admin');
+    if (result) fileSha = result.content.sha;
+    return !!result;
   }
+
+  // ── Image upload ──
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function fileToPreviewUrl(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadImage(pasta, filename, file) {
+    const path = `assets/produtos/${pasta}/${filename}`;
+    const existing = await ghGetFile(path);
+    const sha = existing ? existing.sha : null;
+    const b64 = await fileToBase64(file);
+    const result = await ghPutFile(path, b64, sha, `chore: upload imagem ${filename}`);
+    return !!result;
+  }
+
+  // ── State ──
+  let products = [];
+  let editingId = null;
+  let currentGallery = [];
+  let pendingUploads = [];
+  let pendingPrincipal = null;
 
   function nextId() {
     return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
   }
 
-  // ── Render list ──
+  // ── Product list ──
   function renderList() {
     const list = document.getElementById('product-list');
     if (!products.length) {
       list.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem produtos adicionados.</p>';
       return;
     }
-    list.innerHTML = products.map(p => `
-      <div class="product-row" data-id="${p.id}">
-        <div class="product-row-img">
-          ${p.imagem ? `<img src="../${p.imagem}" alt="${p.nome}" onerror="this.parentElement.textContent='○'" />` : '○'}
-        </div>
-        <div class="product-row-info">
-          <div class="product-row-tipo">${p.tipo}</div>
-          <div class="product-row-nome">${p.nome}</div>
-        </div>
-        <div class="product-row-actions">
-          <button class="btn btn-outline btn-sm" onclick="editProduct(${p.id})">Editar</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
-        </div>
-      </div>
-    `).join('');
+    list.innerHTML = products.map(p => {
+      const imgSrc = p.pasta ? `../assets/produtos/${p.pasta}/principal.png` : '';
+      return `
+        <div class="product-row">
+          <div class="product-row-img">
+            ${imgSrc ? `<img src="${imgSrc}" alt="${p.nome}" onerror="this.parentElement.innerHTML='○'" />` : '○'}
+          </div>
+          <div class="product-row-info">
+            <div class="product-row-tipo">${p.tipo || ''}</div>
+            <div class="product-row-nome">${p.nome}</div>
+          </div>
+          <div class="product-row-actions">
+            <button class="btn btn-outline btn-sm" onclick="openModal(${p.id})">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
+          </div>
+        </div>`;
+    }).join('');
   }
 
-  // ── Drawer ──
-  function openDrawer(p = null) {
-    document.getElementById('drawer-title').textContent = p ? 'Editar Produto' : 'Adicionar Produto';
-    document.getElementById('edit-id').value = p ? p.id : '';
-    document.getElementById('edit-tipo').value = p ? p.tipo : 'KIT';
-    document.getElementById('edit-nome').value = p ? p.nome : '';
-    document.getElementById('edit-desc').value = p ? p.descricao : '';
-    document.getElementById('edit-img').value = p ? p.imagem : '';
+  // ── Características ──
+  function renderCaracteristicas(items) {
+    const list = document.getElementById('carac-list');
+    list.innerHTML = items.map((c, i) => `
+      <div class="carac-row">
+        <input type="text" value="${c.replace(/"/g, '&quot;')}" placeholder="Ex: Potência máxima: 200W" />
+        <button class="carac-remove" onclick="removeCarac(this)" aria-label="Remover">×</button>
+      </div>`).join('');
+  }
+
+  function addCarac() {
+    const list = document.getElementById('carac-list');
+    const row = document.createElement('div');
+    row.className = 'carac-row';
+    row.innerHTML = `<input type="text" placeholder="Ex: Potência máxima: 200W" /><button class="carac-remove" onclick="removeCarac(this)" aria-label="Remover">×</button>`;
+    list.appendChild(row);
+    row.querySelector('input').focus();
+  }
+
+  function removeCarac(btn) {
+    btn.parentElement.remove();
+  }
+
+  function getCaracteristicas() {
+    return Array.from(document.querySelectorAll('#carac-list .carac-row input'))
+      .map(i => i.value.trim()).filter(Boolean);
+  }
+
+  // ── Principal preview ──
+  function renderPrincipalPreview(pasta, overrideSrc) {
+    const el = document.getElementById('principal-preview');
+    const src = overrideSrc || (pasta ? `../assets/produtos/${pasta}/principal.png` : null);
+    if (src) {
+      el.innerHTML = `<img src="${src}" alt="principal" onerror="this.parentElement.innerHTML='○'" />`;
+    } else {
+      el.innerHTML = '○';
+    }
+  }
+
+  // ── Gallery ──
+  function renderGallery() {
+    const pasta = document.getElementById('edit-pasta').value.trim();
+    const grid = document.getElementById('gallery-grid');
+
+    const existingHtml = currentGallery.map((f, i) => {
+      const src = pasta ? `../assets/produtos/${pasta}/${f}` : null;
+      return `
+        <div class="gallery-thumb">
+          ${src ? `<img src="${src}" alt="${f}" onerror="this.style.display='none'" />` : ''}
+          <button class="thumb-remove" onclick="removeExisting(${i})">×</button>
+          <span class="thumb-label">${f}</span>
+        </div>`;
+    }).join('');
+
+    const pendingHtml = pendingUploads.map((u, i) => `
+      <div class="gallery-thumb pending">
+        <img src="${u.preview}" alt="${u.file.name}" />
+        <button class="thumb-remove" onclick="removePending(${i})">×</button>
+        <span class="thumb-label">${u.file.name}</span>
+      </div>`).join('');
+
+    grid.innerHTML = existingHtml + pendingHtml;
+  }
+
+  function removeExisting(idx) {
+    currentGallery.splice(idx, 1);
+    renderGallery();
+  }
+
+  function removePending(idx) {
+    pendingUploads.splice(idx, 1);
+    renderGallery();
+  }
+
+  // ── Open / close modal ──
+  function openModal(id = null) {
+    const p = id ? products.find(x => x.id === id) : null;
+    editingId = id;
+    currentGallery = p && p.imagens ? [...p.imagens] : [];
+    pendingUploads = [];
+    pendingPrincipal = null;
+
+    document.getElementById('modal-title').textContent = p ? 'Editar Produto' : 'Adicionar Produto';
+    document.getElementById('edit-tipo').value = p?.tipo || '';
+    document.getElementById('edit-nome').value = p?.nome || '';
+    document.getElementById('edit-pasta').value = p?.pasta || '';
+    document.getElementById('edit-desc').value = p?.descricao || '';
+    document.getElementById('edit-desc-detail').value = p?.descricao_detalhada || '';
     document.getElementById('edit-destaque').checked = p ? !!p.destaque : true;
-    document.getElementById('drawer-overlay').classList.add('open');
+    document.getElementById('principal-input').value = '';
+    document.getElementById('gallery-input').value = '';
+
+    renderCaracteristicas(p?.caracteristicas || []);
+    renderPrincipalPreview(p?.pasta);
+    renderGallery();
+
+    document.getElementById('modal-overlay').classList.add('open');
   }
 
-  function closeDrawer() {
-    document.getElementById('drawer-overlay').classList.remove('open');
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
   }
 
-  function editProduct(id) {
-    openDrawer(products.find(p => p.id === id));
+  // ── Save ──
+  async function saveProduct() {
+    const tipo   = document.getElementById('edit-tipo').value.trim();
+    const nome   = document.getElementById('edit-nome').value.trim();
+    const pasta  = document.getElementById('edit-pasta').value.trim();
+    const desc   = document.getElementById('edit-desc').value.trim();
+    const descD  = document.getElementById('edit-desc-detail').value.trim();
+    const dest   = document.getElementById('edit-destaque').checked;
+    const carac  = getCaracteristicas();
+
+    if (!nome) { toast('O nome é obrigatório.', 'err'); return; }
+
+    setSaving(true, 'A preparar...');
+
+    // Upload imagem principal
+    if (pendingPrincipal && pasta) {
+      setSaving(true, 'A enviar imagem principal...');
+      const ext = pendingPrincipal.file.name.split('.').pop().toLowerCase();
+      await uploadImage(pasta, `principal.${ext}`, pendingPrincipal.file);
+    }
+
+    // Upload imagens de galeria
+    let newGallery = [...currentGallery];
+    if (pendingUploads.length && pasta) {
+      const maxNum = currentGallery.reduce((m, f) => {
+        const n = parseInt(f); return isNaN(n) ? m : Math.max(m, n);
+      }, 0);
+      for (let i = 0; i < pendingUploads.length; i++) {
+        const { file } = pendingUploads[i];
+        const ext = file.name.split('.').pop().toLowerCase();
+        const filename = `${maxNum + i + 1}.${ext}`;
+        setSaving(true, `A enviar ${filename} (${i + 1}/${pendingUploads.length})...`);
+        const ok = await uploadImage(pasta, filename, file);
+        if (ok) newGallery.push(filename);
+      }
+    }
+
+    const product = {
+      id: editingId || nextId(),
+      tipo, nome, pasta,
+      descricao: desc,
+      descricao_detalhada: descD,
+      caracteristicas: carac,
+      imagens: newGallery.length ? newGallery : null,
+      destaque: dest,
+    };
+
+    if (editingId) {
+      products = products.map(p => p.id === editingId ? product : p);
+    } else {
+      products.push(product);
+    }
+
+    setSaving(true, 'A guardar products.js...');
+    const ok = await saveProductsToGitHub(products);
+    setSaving(false);
+
+    if (ok) {
+      toast('Guardado e publicado no GitHub.');
+      closeModal();
+      renderList();
+    } else {
+      toast('Erro ao guardar. Verifica a configuração GitHub.', 'err');
+    }
   }
 
+  // ── Delete ──
   async function deleteProduct(id) {
     if (!confirm('Eliminar este produto?')) return;
     products = products.filter(p => p.id !== id);
-    saveLocal();
+    setSaving(true, 'A eliminar produto...');
+    await saveProductsToGitHub(products);
+    setSaving(false);
     renderList();
-    await syncGitHub();
-  }
-
-  // ── GitHub sync ──
-  async function syncGitHub() {
-    const { user, repo, token } = getGhConfig();
-    if (!user || !repo || !token) return;
-    if (!fileSha) {
-      const file = await ghGetFile();
-      if (file) fileSha = file.sha;
-    }
-    const ok = await ghPutFile(products, fileSha);
-    if (ok) {
-      const file = await ghGetFile();
-      if (file) fileSha = file.sha;
-      toast('Guardado e publicado no GitHub.');
-    } else {
-      toast('Erro ao publicar. Verifica a configuração GitHub.', 'err');
-    }
+    toast('Produto eliminado.');
   }
 
   // ── Init ──
   async function initApp() {
-    // Carregar config GitHub
     const cfg = getGhConfig();
     document.getElementById('gh-user').value = cfg.user;
     document.getElementById('gh-repo').value = cfg.repo;
     document.getElementById('gh-token').value = cfg.token;
 
-    // Tentar carregar do GitHub
     if (cfg.user && cfg.repo && cfg.token) {
-      const file = await ghGetFile();
-      if (file) {
-        fileSha = file.sha;
-        products = JSON.parse(atob(file.content.replace(/\n/g, '')));
-        saveLocal();
-        document.getElementById('gh-status').textContent = '✓ Ligado ao repositório.';
+      setSaving(true, 'A carregar produtos...');
+      const loaded = await loadProductsFromGitHub();
+      setSaving(false);
+      if (loaded) {
+        products = loaded;
+        document.getElementById('gh-status').textContent = `✓ ${products.length} produtos carregados do repositório.`;
         document.getElementById('gh-status').className = 'github-status ok';
       }
-    } else {
-      loadLocal();
     }
     renderList();
   }
@@ -451,7 +700,7 @@
     }
   });
 
-  document.getElementById('pwd').addEventListener('keydown', (e) => {
+  document.getElementById('pwd').addEventListener('keydown', e => {
     if (e.key === 'Enter') document.getElementById('login-btn').click();
   });
 
@@ -460,32 +709,38 @@
     location.reload();
   });
 
-  document.getElementById('add-btn').addEventListener('click', () => openDrawer());
-  document.getElementById('drawer-cancel').addEventListener('click', closeDrawer);
-  document.getElementById('drawer-overlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('drawer-overlay')) closeDrawer();
+  document.getElementById('add-btn').addEventListener('click', () => openModal());
+  document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
+  document.getElementById('modal-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
   });
 
-  document.getElementById('drawer-save').addEventListener('click', async () => {
-    const id = document.getElementById('edit-id').value;
-    const product = {
-      id: id ? Number(id) : nextId(),
-      tipo: document.getElementById('edit-tipo').value,
-      nome: document.getElementById('edit-nome').value.trim(),
-      descricao: document.getElementById('edit-desc').value.trim(),
-      imagem: document.getElementById('edit-img').value.trim(),
-      destaque: document.getElementById('edit-destaque').checked,
-    };
-    if (!product.nome) { toast('O nome é obrigatório.', 'err'); return; }
-    if (id) {
-      products = products.map(p => p.id === Number(id) ? product : p);
-    } else {
-      products.push(product);
+  document.getElementById('modal-save-btn').addEventListener('click', saveProduct);
+
+  document.getElementById('carac-add-btn').addEventListener('click', addCarac);
+
+  document.getElementById('principal-input').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const preview = await fileToPreviewUrl(file);
+    pendingPrincipal = { file, preview };
+    renderPrincipalPreview(null, preview);
+  });
+
+  document.getElementById('gallery-input').addEventListener('change', async e => {
+    const files = Array.from(e.target.files);
+    for (const file of files) {
+      const preview = await fileToPreviewUrl(file);
+      pendingUploads.push({ file, preview });
     }
-    saveLocal();
-    renderList();
-    closeDrawer();
-    await syncGitHub();
+    e.target.value = '';
+    renderGallery();
+  });
+
+  document.getElementById('edit-pasta').addEventListener('input', () => {
+    renderPrincipalPreview(document.getElementById('edit-pasta').value.trim());
+    renderGallery();
   });
 
   document.getElementById('gh-save-btn').addEventListener('click', () => {
@@ -499,21 +754,23 @@
     localStorage.setItem('gh_user', document.getElementById('gh-user').value.trim());
     localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim());
     localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
-    const file = await ghGetFile();
-    const statusEl = document.getElementById('gh-status');
-    if (file) {
-      fileSha = file.sha;
-      statusEl.textContent = '✓ Ligação bem-sucedida ao repositório.';
-      statusEl.className = 'github-status ok';
+    setSaving(true, 'A testar ligação...');
+    const loaded = await loadProductsFromGitHub();
+    setSaving(false);
+    const el = document.getElementById('gh-status');
+    if (loaded !== null) {
+      products = loaded;
+      renderList();
+      el.textContent = `✓ Ligação bem-sucedida. ${products.length} produtos encontrados.`;
+      el.className = 'github-status ok';
       toast('GitHub configurado com sucesso.');
     } else {
-      statusEl.textContent = '✗ Falha na ligação. Verifica utilizador, repositório e token.';
-      statusEl.className = 'github-status err';
+      el.textContent = '✗ Falha na ligação. Verifica utilizador, repositório e token.';
+      el.className = 'github-status err';
       toast('Erro na ligação ao GitHub.', 'err');
     }
   });
 
-  // ── Verificar sessão ──
   if (sessionStorage.getItem('admin_auth') === '1') {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-screen').style.display = 'block';
