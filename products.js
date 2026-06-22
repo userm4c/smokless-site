@@ -50,6 +50,7 @@ window.PRODUCTS = [
     "id": 3,
     "tipo": "KIT",
     "nome": "Lost Vape Thelema Solo 100 Pro",
+    "pasta": "Lost Vape Thelema Solo 100 Pro",
     "descricao": "100W, chipset QUEST X 3.0, tela TFT e acabamento couro PU premium.",
     "descricao_detalhada": "O Thelema Solo 100 Pro combina tecnologia avançada com um design premium. O chipset QUEST X 3.0 garante precisão de temperatura e resposta rápida, enquanto o acabamento em couro PU oferece uma pega confortável e elegante.",
     "caracteristicas": [
@@ -61,7 +62,6 @@ window.PRODUCTS = [
       "Acabamento: couro PU premium",
       "Proteções: sobrecarga, curto-circuito, sobretemperatura"
     ],
-    "pasta": "Lost Vape Thelema Solo 100 Pro",
     "imagens": [
       "1.webp",
       "2.webp",
@@ -71,7 +71,7 @@ window.PRODUCTS = [
       "6.webp",
       "7.webp"
     ],
-    "destaque": true
+    "destaque": false
   },
   {
     "id": 4,
