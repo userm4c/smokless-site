@@ -55,7 +55,7 @@ window.PRODUCTS = [
   {
     "id": 4,
     "tipo": "MOD",
-    "nome": "Geekvape Aegis Legend 5 Mod",
+    "nome": "Geekvape Aegis Legend 5",
     "descricao": "Mod robusto com chipset AS 4.0, 200W e protecção tripla IP68.",
     "descricao_detalhada": "O Geekvape Aegis Legend 5 representa a evolução da renomada série Aegis, combinando desempenho de ponta com a durabilidade comprovada. Com chipset AS 4.0 ultrarrápido, protecção tripla IP68 (água, poeira e choques) e ecrã TFT 1.08\", é a escolha ideal para vapers exigentes que não abdicam de fiabilidade em qualquer ambiente.",
     "caracteristicas": [
@@ -72,8 +72,8 @@ window.PRODUCTS = [
   },
   {
     "id": 5,
-    "tipo": "POD",
-    "nome": "Geekvape Sonder Q 2 Pod System Kit",
+    "tipo": "POD SYSTEM KIT",
+    "nome": "Geekvape Sonder Q 2",
     "descricao": "Pod system compacto com 1000mAh, ecrã OLED e airflow ajustável.",
     "descricao_detalhada": "O Geekvape Sonder Q 2 é um pod system de bolso que não abre mão de funcionalidade. Com bateria de 1000mAh, ecrã OLED e airflow ajustável, oferece um vapor surpreendentemente rico para um dispositivo tão compacto. Compatível com as bobinas da série B, garantindo uma gama vasta de opções de vape.",
     "caracteristicas": [
@@ -92,7 +92,7 @@ window.PRODUCTS = [
   {
     "id": 6,
     "tipo": "MOD",
-    "nome": "Lost Vape Centaurus BT200 Box Mod",
+    "nome": "Lost Vape Centaurus BT200 Box",
     "descricao": "200W, chipset Quest 2.0, dual 18650/21700 e ecrã TFT 1.3\" colorido.",
     "descricao_detalhada": "O Lost Vape Centaurus BT200 é um box mod de alta potência que combina o chipset Quest 2.0 com um ecrã TFT 1.3\" de alta resolução. Compatível com baterias 18650 e 21700, oferece versatilidade máxima e um controlo de temperatura preciso para vapers técnicos.",
     "caracteristicas": [
@@ -109,8 +109,8 @@ window.PRODUCTS = [
   },
   {
     "id": 7,
-    "tipo": "POD",
-    "nome": "Lost Vape Thelema Aura 45 Pod System Kit",
+    "tipo": "POD SYSTEM KIT",
+    "nome": "Lost Vape Thelema Aura 45",
     "descricao": "45W, bateria 1800mAh integrada, ecrã TFT e pods de dupla bobina.",
     "descricao_detalhada": "O Lost Vape Thelema Aura 45 alia um design sofisticado a um desempenho sólido. Com 45W de potência, bateria integrada de 1800mAh e pods de dupla bobina, proporciona um vapor denso e consistente. O ecrã TFT colorido permite monitorizar todos os parâmetros com facilidade.",
     "caracteristicas": [
@@ -128,7 +128,7 @@ window.PRODUCTS = [
   {
     "id": 8,
     "tipo": "MOD",
-    "nome": "Lost Vape Thelema Q200 Pro Mod",
+    "nome": "Lost Vape Thelema Q200 Pro",
     "descricao": "200W, chipset QUEST X 3.0, dual 18650/21700 e ecrã TFT colorido.",
     "descricao_detalhada": "O Lost Vape Thelema Q200 Pro eleva a série Thelema a um novo patamar. Com o chipset QUEST X 3.0, compatibilidade com baterias 18650 e 21700 e um ecrã TFT colorido, oferece um controlo total sobre a experiência de vape — seja em modo potência, temperatura ou bypass.",
     "caracteristicas": [
@@ -145,8 +145,8 @@ window.PRODUCTS = [
   },
   {
     "id": 9,
-    "tipo": "POD",
-    "nome": "Vaporesso Luxe X3 Pod System",
+    "tipo": "POD SYSTEM",
+    "nome": "Vaporesso Luxe X3",
     "descricao": "Pod system 40W com bateria 1800mAh, ecrã OLED e pods COREX.",
     "descricao_detalhada": "O Vaporesso Luxe X3 combina elegância e desempenho num pod system de 40W. Os pods COREX garantem um sabor puro e consistente, enquanto a bateria de 1800mAh e o ecrã OLED tornam a experiência do dia-a-dia fluida e confortável.",
     "caracteristicas": [
@@ -164,8 +164,8 @@ window.PRODUCTS = [
   },
   {
     "id": 10,
-    "tipo": "KIT",
-    "nome": "Vaporesso Luxe XR Max 2 Pod Mod Kit",
+    "tipo": "POD MOD KIT",
+    "nome": "Vaporesso Luxe XR Max 2",
     "descricao": "100W, bateria 21700, pods de 8ml e chip AXON 3 com modo PULSE.",
     "descricao_detalhada": "O Vaporesso Luxe XR Max 2 é um pod mod kit de alto desempenho que combina a potência de 100W com a praticidade dos pods de 8ml. O chip AXON Gen 3 com modo PULSE garante uma activação instantânea e um vapor suave e constante ao longo de toda a bateria.",
     "caracteristicas": [
@@ -182,8 +182,8 @@ window.PRODUCTS = [
   },
   {
     "id": 11,
-    "tipo": "POD",
-    "nome": "Vaporesso XROS 5 Pod System",
+    "tipo": "POD SYSTEM",
+    "nome": "Vaporesso XROS 5",
     "descricao": "Pod compacto 1200mAh, pods de 3ml, airflow ajustável e carga rápida.",
     "descricao_detalhada": "O Vaporesso XROS 5 mantém a filosofia da série — design minimalista, facilidade de uso e fiabilidade — e acrescenta carga rápida que enche a bateria de 1200mAh em cerca de 30 minutos. Com tecnologia SSS anti-fuga e airflow ajustável, é o companheiro ideal para o dia-a-dia.",
     "caracteristicas": [
@@ -201,8 +201,8 @@ window.PRODUCTS = [
   },
   {
     "id": 12,
-    "tipo": "POD",
-    "nome": "Vaporesso XROS 6 Pod System",
+    "tipo": "POD SYSTEM",
+    "nome": "Vaporesso XROS 6",
     "descricao": "Evolução do XROS com bateria 1500mAh, pods 3ml e ecrã OLED discreto.",
     "descricao_detalhada": "O Vaporesso XROS 6 eleva a série com uma bateria mais generosa de 1500mAh e a adição de um ecrã OLED discreto que mostra o nível de bateria e a potência sem comprometer o design elegante. Continua com a tecnologia SSS anti-fuga e airflow ajustável que tornaram a série XROS um sucesso.",
     "caracteristicas": [
@@ -220,8 +220,8 @@ window.PRODUCTS = [
   },
   {
     "id": 13,
-    "tipo": "KIT",
-    "nome": "Voopoo Doric Go Pod Mod Kit",
+    "tipo": "POD MOD KIT",
+    "nome": "Voopoo Doric Go",
     "descricao": "Kit pod mod 50W com bateria 1500mAh, pods PnP e ecrã de 0.96\".",
     "descricao_detalhada": "O Voopoo Doric Go é um pod mod kit versátil que combina o chip GENE TT com pods PnP de ampla compatibilidade. Com 50W de potência e bateria de 1500mAh integrada, entrega um vapor satisfatório num formato compacto e acessível, ideal para quem quer potência sem complexidade.",
     "caracteristicas": [
@@ -240,7 +240,7 @@ window.PRODUCTS = [
   {
     "id": 14,
     "tipo": "KIT",
-    "nome": "Voopoo Drag 6 Kit",
+    "nome": "Voopoo Drag 6",
     "descricao": "Kit completo 100W com chip GENE TT2, bateria 21700 e tank Maat de 6ml.",
     "descricao_detalhada": "O Voopoo Drag 6 Kit é a versão completa do icónico Drag 6, incluindo o tank Maat de 6ml e bobinas PnP-X de alto desempenho. O chip GENE TT2 garante uma resposta instantânea e um controlo de temperatura preciso, tornando este kit numa escolha premium para vapers exigentes.",
     "caracteristicas": [
@@ -259,7 +259,7 @@ window.PRODUCTS = [
   {
     "id": 15,
     "tipo": "MOD",
-    "nome": "Voopoo Drag 6 Mod",
+    "nome": "Voopoo Drag 6",
     "descricao": "Mod 100W com chip GENE TT2, bateria única 21700 e design Drag icónico.",
     "descricao_detalhada": "O Voopoo Drag 6 Mod traz o design icónico da série Drag numa versão só do mod, para quem já tem o seu atomizador preferido. Com o chip GENE TT2 e suporte a bateria 21700, oferece 100W de potência com activação instantânea e uma interface simples e intuitiva.",
     "caracteristicas": [
@@ -276,8 +276,8 @@ window.PRODUCTS = [
   },
   {
     "id": 16,
-    "tipo": "KIT",
-    "nome": "Voopoo Drag S3 Pod Mod Kit",
+    "tipo": "POD MOD KIT",
+    "nome": "Voopoo Drag S3",
     "descricao": "80W, bateria interna 2600mAh, pods PnP-X e ecrã TFT 1.08\" colorido.",
     "descricao_detalhada": "O Voopoo Drag S3 é um pod mod kit que dispensa baterias externas sem sacrificar potência. Com 80W, bateria integrada de 2600mAh e o ecrã TFT 1.08\" mais generoso da série, oferece uma experiência premium e autónoma. Os pods PnP-X compatíveis garantem uma vasta escolha de bobinas.",
     "caracteristicas": [
@@ -295,8 +295,8 @@ window.PRODUCTS = [
   },
   {
     "id": 17,
-    "tipo": "MOD",
-    "nome": "Voopoo Drag X3 Pod Mod",
+    "tipo": "POD MOD KIT",
+    "nome": "Voopoo Drag X3",
     "descricao": "100W, bateria 21700, pods PnP-X e chip GENE TT2 com múltiplos modos.",
     "descricao_detalhada": "O Voopoo Drag X3 é a fusão perfeita entre um pod mod e um box mod tradicional. Com suporte a bateria 21700 e 100W de potência, aliado à versatilidade dos pods PnP-X, oferece o melhor dos dois mundos: a praticidade de um pod com a potência de um mod completo.",
     "caracteristicas": [
