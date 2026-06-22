@@ -464,14 +464,6 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   color: var(--muted);
 }
 
-.footer-admin {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.18);
-  text-decoration: none;
-  margin-left: auto;
-}
-.footer-admin:hover { color: var(--muted); }
-
 /* ── MODAL ── */
 .modal-overlay {
   position: fixed;
