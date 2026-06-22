@@ -16,5 +16,11 @@ window.CONTENT = {
     "instagram": "smokless_",
     "whatsapp": "351999999999",
     "morada": "Rua 22, 393 Loja C\n4500-273 Espinho\nPortugal"
-  }
+  },
+  "horario": {
+    "dias": "Segunda a Sábado",
+    "horas": "10h00 – 20h00",
+    "nota": "Domingos e feriados encerrado"
+  },
+  "marcas": ["Early Bird", "Vaporesso", "Lost Vape", "Geekvape", "Voopoo", "Uwell", "Smok", "Aspire"]
 };

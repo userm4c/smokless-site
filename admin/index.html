@@ -229,6 +229,39 @@
       </div>
     </div>
 
+    <div class="section-card">
+      <div class="section-card-title"><span class="dot"></span>Horário</div>
+      <div class="form-row" style="margin-bottom:14px">
+        <div class="form-group">
+          <label>Dias</label>
+          <input type="text" id="hor-dias" placeholder="Ex: Segunda a Sábado" />
+        </div>
+        <div class="form-group">
+          <label>Horas</label>
+          <input type="text" id="hor-horas" placeholder="Ex: 10h00 – 20h00" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nota (opcional)</label>
+        <input type="text" id="hor-nota" placeholder="Ex: Domingos e feriados encerrado" />
+      </div>
+      <div class="section-card-footer">
+        <button class="btn btn-green btn-sm" id="save-horario-btn">Guardar Alterações</button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card-title"><span class="dot"></span>Marcas</div>
+      <div class="form-group">
+        <label>Marcas (uma por linha)</label>
+        <textarea id="marcas-input" rows="6" placeholder="Early Bird&#10;Vaporesso&#10;Lost Vape&#10;Geekvape&#10;..."></textarea>
+        <p class="form-hint" style="margin-top:6px">Aparecem na faixa entre o hero e os produtos.</p>
+      </div>
+      <div class="section-card-footer">
+        <button class="btn btn-green btn-sm" id="save-marcas-btn">Guardar Alterações</button>
+      </div>
+    </div>
+
   </div>
 
   <!-- ── TAB: PRODUTOS ── -->
@@ -502,10 +535,17 @@
         </div>
       </div>`).join('');
 
-    const ct = siteContent.contacto;
+    const ct = siteContent.contacto || {};
     document.getElementById('ct-instagram').value = ct.instagram || '';
-    document.getElementById('ct-whatsapp').value = ct.whatsapp || '';
-    document.getElementById('ct-morada').value = ct.morada || '';
+    document.getElementById('ct-whatsapp').value  = ct.whatsapp  || '';
+    document.getElementById('ct-morada').value    = ct.morada    || '';
+
+    const h = siteContent.horario || {};
+    document.getElementById('hor-dias').value  = h.dias  || '';
+    document.getElementById('hor-horas').value = h.horas || '';
+    document.getElementById('hor-nota').value  = h.nota  || '';
+
+    document.getElementById('marcas-input').value = (siteContent.marcas || []).join('\n');
   }
 
   // ── Save site content ──
@@ -785,6 +825,27 @@
 
   document.getElementById('save-site-btn').addEventListener('click', saveSobreSection);
   document.getElementById('save-contact-btn').addEventListener('click', saveContactSection);
+
+  document.getElementById('save-horario-btn').addEventListener('click', async () => {
+    siteContent.horario = {
+      dias:  document.getElementById('hor-dias').value.trim(),
+      horas: document.getElementById('hor-horas').value.trim(),
+      nota:  document.getElementById('hor-nota').value.trim(),
+    };
+    setSaving(true, 'A guardar horário...');
+    const ok = await saveContent();
+    setSaving(false);
+    toast(ok ? 'Horário guardado.' : 'Erro ao guardar.', ok ? 'ok' : 'err');
+  });
+
+  document.getElementById('save-marcas-btn').addEventListener('click', async () => {
+    siteContent.marcas = document.getElementById('marcas-input').value
+      .split('\n').map(s => s.trim()).filter(Boolean);
+    setSaving(true, 'A guardar marcas...');
+    const ok = await saveContent();
+    setSaving(false);
+    toast(ok ? 'Marcas guardadas.' : 'Erro ao guardar.', ok ? 'ok' : 'err');
+  });
 
   document.getElementById('add-btn').addEventListener('click', () => openProductModal());
   document.getElementById('modal-close-btn').addEventListener('click', closeProductModal);
