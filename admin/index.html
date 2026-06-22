@@ -281,7 +281,7 @@
   // ── Senha (hash SHA-256) ──
   // Para mudar a senha: gerar SHA-256 da nova senha em https://emn178.github.io/online-tools/sha256.html
   // Senha padrão: smokless2026
-  const PASSWORD_HASH = 'e8a7b3c9f1d2a4e6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4';
+  const PASSWORD_HASH = '73f1e08af010860aacfe60b86d09b0d628b5332c01f5216ec358bbfa58dd7883';
 
   async function sha256(msg) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
