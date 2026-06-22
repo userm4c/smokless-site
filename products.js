@@ -171,6 +171,7 @@ window.PRODUCTS = [
     "id": 7,
     "tipo": "POD SYSTEM KIT",
     "nome": "Lost Vape Thelema Aura 45",
+    "pasta": "Lost Vape Thelema Aura 45 Pod System Kit",
     "descricao": "45W, bateria 1800mAh integrada, ecrã TFT e pods de dupla bobina.",
     "descricao_detalhada": "O Lost Vape Thelema Aura 45 alia um design sofisticado a um desempenho sólido. Com 45W de potência, bateria integrada de 1800mAh e pods de dupla bobina, proporciona um vapor denso e consistente. O ecrã TFT colorido permite monitorizar todos os parâmetros com facilidade.",
     "caracteristicas": [
@@ -182,7 +183,6 @@ window.PRODUCTS = [
       "Airflow ajustável",
       "Carregamento: USB-C rápido"
     ],
-    "pasta": "Lost Vape Thelema Aura 45 Pod System Kit",
     "imagens": [
       "1.webp",
       "2.webp",
@@ -193,7 +193,7 @@ window.PRODUCTS = [
       "7.png",
       "8.png"
     ],
-    "destaque": true
+    "destaque": false
   },
   {
     "id": 8,
