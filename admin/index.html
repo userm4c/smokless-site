@@ -433,13 +433,22 @@
   let products = [];
   let productsSha = null;
 
+  function b64decode(b64) {
+    const bin = atob(b64.replace(/\n/g, ''));
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
   async function loadProducts() {
     const file = await ghGetFile('products.js');
     if (!file) return false;
     productsSha = file.sha;
-    const txt = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
-    const m = txt.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*\]);/);
-    if (m) { products = JSON.parse(m[1]); return true; }
+    try {
+      const txt = b64decode(file.content);
+      const m = txt.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*\]);/);
+      if (m) { products = JSON.parse(m[1]); return true; }
+    } catch (e) { lastGhError = `Erro ao ler products.js: ${e.message}`; }
     return false;
   }
 
@@ -458,9 +467,11 @@
     const file = await ghGetFile('content.js');
     if (!file) return false;
     contentSha = file.sha;
-    const txt = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
-    const m = txt.match(/window\.CONTENT\s*=\s*(\{[\s\S]*\});/);
-    if (m) { siteContent = JSON.parse(m[1]); return true; }
+    try {
+      const txt = b64decode(file.content);
+      const m = txt.match(/window\.CONTENT\s*=\s*(\{[\s\S]*\});/);
+      if (m) { siteContent = JSON.parse(m[1]); return true; }
+    } catch (e) { lastGhError = `Erro ao ler content.js: ${e.message}`; }
     return false;
   }
 
