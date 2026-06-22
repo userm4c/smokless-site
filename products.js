@@ -264,6 +264,7 @@ window.PRODUCTS = [
     "id": 11,
     "tipo": "POD SYSTEM",
     "nome": "Vaporesso XROS 5",
+    "pasta": "Vaporesso XROS 5 Pod System",
     "descricao": "Pod compacto 1200mAh, pods de 3ml, airflow ajustável e carga rápida.",
     "descricao_detalhada": "O Vaporesso XROS 5 mantém a filosofia da série — design minimalista, facilidade de uso e fiabilidade — e acrescenta carga rápida que enche a bateria de 1200mAh em cerca de 30 minutos. Com tecnologia SSS anti-fuga e airflow ajustável, é o companheiro ideal para o dia-a-dia.",
     "caracteristicas": [
@@ -276,9 +277,8 @@ window.PRODUCTS = [
       "Activação: draw-activated",
       "Carregamento: USB-C"
     ],
-    "pasta": "Vaporesso XROS 5 Pod System",
     "imagens": null,
-    "destaque": true
+    "destaque": false
   },
   {
     "id": 12,
