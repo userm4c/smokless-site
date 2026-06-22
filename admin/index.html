@@ -383,17 +383,28 @@
 
   let lastGhError = '';
 
+  function fetchWithTimeout(url, options, ms = 12000) {
+    const ctrl = new AbortController();
+    const id = setTimeout(() => ctrl.abort(), ms);
+    return fetch(url, { ...options, signal: ctrl.signal }).finally(() => clearTimeout(id));
+  }
+
   async function ghGetFile(path) {
     const { user, repo, token } = getGhConfig();
-    if (!user || !repo || !token) { lastGhError = 'Configuração incompleta (utilizador, repositório ou token em falta).'; return null; }
+    if (!user || !repo || !token) {
+      lastGhError = 'Configuração incompleta (utilizador, repositório ou token em falta).';
+      return null;
+    }
     try {
-      const res = await fetch(ghUrl(path), { headers: ghHeaders() });
+      const res = await fetchWithTimeout(ghUrl(path), {
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' }
+      });
       if (res.ok) return res.json();
       const err = await res.json().catch(() => ({}));
       lastGhError = `HTTP ${res.status}: ${err.message || res.statusText}`;
       return null;
     } catch (e) {
-      lastGhError = `Erro de rede: ${e.message}`;
+      lastGhError = e.name === 'AbortError' ? 'Timeout — sem resposta do GitHub em 12s.' : `Erro de rede: ${e.message}`;
       return null;
     }
   }
@@ -401,14 +412,19 @@
   async function ghPutFile(path, b64, sha, message) {
     const body = { message, content: b64 };
     if (sha) body.sha = sha;
+    const { token } = getGhConfig();
     try {
-      const res = await fetch(ghUrl(path), { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
+      const res = await fetchWithTimeout(ghUrl(path), {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
       if (res.ok) return res.json();
       const err = await res.json().catch(() => ({}));
       lastGhError = `HTTP ${res.status}: ${err.message || res.statusText}`;
       return null;
     } catch (e) {
-      lastGhError = `Erro de rede: ${e.message}`;
+      lastGhError = e.name === 'AbortError' ? 'Timeout ao guardar.' : `Erro de rede: ${e.message}`;
       return null;
     }
   }
@@ -797,10 +813,17 @@
     localStorage.setItem('gh_user',  document.getElementById('gh-user').value.trim());
     localStorage.setItem('gh_repo',  document.getElementById('gh-repo').value.trim());
     localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim());
-    setSaving(true, 'A testar ligação...');
-    const [pOk, cOk] = await Promise.all([loadProducts(), loadContent()]);
-    setSaving(false);
     const el = document.getElementById('gh-status');
+    setSaving(true, 'A testar ligação...');
+    let pOk = false;
+    try {
+      const [p, c] = await Promise.all([loadProducts(), loadContent()]);
+      pOk = p;
+    } catch (e) {
+      lastGhError = e.message;
+    } finally {
+      setSaving(false);
+    }
     if (pOk) {
       renderSiteEditor(); renderTipoFilters(); renderProductList();
       el.textContent = `✓ Ligação bem-sucedida. ${products.length} produtos encontrados.`;
