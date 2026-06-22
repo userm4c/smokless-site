@@ -14,7 +14,14 @@ window.PRODUCTS = [
       "Diâmetro: 25mm"
     ],
     "pasta": "Emperor RTA — Early Bird",
-    "imagens": ["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp"],
+    "imagens": [
+      "1.webp",
+      "2.webp",
+      "3.webp",
+      "4.webp",
+      "5.webp",
+      "6.webp"
+    ],
     "destaque": true
   },
   {
@@ -33,7 +40,10 @@ window.PRODUCTS = [
       "Resistente a salpicos"
     ],
     "pasta": "Vaporesso Armor Max 220W",
-    "imagens": ["1.jpg","2.jpg"],
+    "imagens": [
+      "1.jpg",
+      "2.jpg"
+    ],
     "destaque": true
   },
   {
@@ -52,7 +62,15 @@ window.PRODUCTS = [
       "Proteções: sobrecarga, curto-circuito, sobretemperatura"
     ],
     "pasta": "Lost Vape Thelema Solo 100 Pro",
-    "imagens": ["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.webp"],
+    "imagens": [
+      "1.webp",
+      "2.webp",
+      "3.webp",
+      "4.webp",
+      "5.webp",
+      "6.webp",
+      "7.webp"
+    ],
     "destaque": true
   },
   {
@@ -71,7 +89,16 @@ window.PRODUCTS = [
       "Carregamento: USB-C"
     ],
     "pasta": "Geekvape Aegis Legend 5 Mod",
-    "imagens": ["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.webp","8.webp"],
+    "imagens": [
+      "1.webp",
+      "2.webp",
+      "3.webp",
+      "4.webp",
+      "5.webp",
+      "6.webp",
+      "7.webp",
+      "8.webp"
+    ],
     "destaque": true
   },
   {
@@ -91,13 +118,31 @@ window.PRODUCTS = [
       "Carregamento: USB-C"
     ],
     "pasta": "Geekvape Sonder Q 2 Pod System Kit",
-    "imagens": ["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.webp","8.webp","9.webp","10.webp","11.webp","12.webp","13.webp","14.webp","15.webp","16.webp"],
+    "imagens": [
+      "1.webp",
+      "2.webp",
+      "3.webp",
+      "4.webp",
+      "5.webp",
+      "6.webp",
+      "7.webp",
+      "8.webp",
+      "9.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp"
+    ],
     "destaque": true
   },
   {
     "id": 6,
     "tipo": "BOX MOD",
     "nome": "Lost Vape Centaurus BT200",
+    "pasta": "Lost Vape Centaurus BT200 Box Mod",
     "descricao": "200W, chipset Quest 2.0, dual 18650/21700 e ecrã TFT 1.3\" colorido.",
     "descricao_detalhada": "O Lost Vape Centaurus BT200 é um box mod de alta potência que combina o chipset Quest 2.0 com um ecrã TFT 1.3\" de alta resolução. Compatível com baterias 18650 e 21700, oferece versatilidade máxima e um controlo de temperatura preciso para vapers técnicos.",
     "caracteristicas": [
@@ -109,9 +154,18 @@ window.PRODUCTS = [
       "Material: liga de zinco + couro",
       "Carregamento: USB-C"
     ],
-    "pasta": "Lost Vape Centaurus BT200 Box Mod",
-    "imagens": ["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.webp","8.webp","9.webp"],
-    "destaque": true
+    "imagens": [
+      "1.webp",
+      "2.webp",
+      "3.webp",
+      "4.webp",
+      "5.webp",
+      "6.webp",
+      "7.webp",
+      "8.webp",
+      "9.webp"
+    ],
+    "destaque": false
   },
   {
     "id": 7,
@@ -129,7 +183,16 @@ window.PRODUCTS = [
       "Carregamento: USB-C rápido"
     ],
     "pasta": "Lost Vape Thelema Aura 45 Pod System Kit",
-    "imagens": ["1.webp","2.webp","3.webp","4.webp","5.webp","6.webp","7.png","8.png"],
+    "imagens": [
+      "1.webp",
+      "2.webp",
+      "3.webp",
+      "4.webp",
+      "5.webp",
+      "6.webp",
+      "7.png",
+      "8.png"
+    ],
     "destaque": true
   },
   {
@@ -148,7 +211,14 @@ window.PRODUCTS = [
       "Carregamento: USB-C"
     ],
     "pasta": "Lost Vape Thelema Q200 Pro Mod",
-    "imagens": ["1.jfif","2.jfif","3.jfif","4.jfif","5.jfif","6.jfif"],
+    "imagens": [
+      "1.jfif",
+      "2.jfif",
+      "3.jfif",
+      "4.jfif",
+      "5.jfif",
+      "6.jfif"
+    ],
     "destaque": true
   },
   {
