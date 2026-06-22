@@ -381,18 +381,36 @@
     return `https://api.github.com/repos/${user}/${repo}/contents/${path.split('/').map(encodeURIComponent).join('/')}`;
   }
 
+  let lastGhError = '';
+
   async function ghGetFile(path) {
     const { user, repo, token } = getGhConfig();
-    if (!user || !repo || !token) return null;
-    const res = await fetch(ghUrl(path), { headers: ghHeaders() });
-    return res.ok ? res.json() : null;
+    if (!user || !repo || !token) { lastGhError = 'Configuração incompleta (utilizador, repositório ou token em falta).'; return null; }
+    try {
+      const res = await fetch(ghUrl(path), { headers: ghHeaders() });
+      if (res.ok) return res.json();
+      const err = await res.json().catch(() => ({}));
+      lastGhError = `HTTP ${res.status}: ${err.message || res.statusText}`;
+      return null;
+    } catch (e) {
+      lastGhError = `Erro de rede: ${e.message}`;
+      return null;
+    }
   }
 
   async function ghPutFile(path, b64, sha, message) {
     const body = { message, content: b64 };
     if (sha) body.sha = sha;
-    const res = await fetch(ghUrl(path), { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
-    return res.ok ? res.json() : null;
+    try {
+      const res = await fetch(ghUrl(path), { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
+      if (res.ok) return res.json();
+      const err = await res.json().catch(() => ({}));
+      lastGhError = `HTTP ${res.status}: ${err.message || res.statusText}`;
+      return null;
+    } catch (e) {
+      lastGhError = `Erro de rede: ${e.message}`;
+      return null;
+    }
   }
 
   // ── products.js ──
@@ -789,9 +807,9 @@
       el.className = 'github-status ok';
       toast('GitHub configurado com sucesso.');
     } else {
-      el.textContent = '✗ Falha na ligação. Verifica utilizador, repositório e token.';
+      el.textContent = `✗ Falha: ${lastGhError || 'erro desconhecido'}`;
       el.className = 'github-status err';
-      toast('Erro na ligação ao GitHub.', 'err');
+      toast(`Erro: ${lastGhError || 'falha na ligação'}`, 'err');
     }
   });
 
