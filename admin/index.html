@@ -404,7 +404,7 @@
     if (!file) return false;
     productsSha = file.sha;
     const txt = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
-    const m = txt.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*?\]);/);
+    const m = txt.match(/window\.PRODUCTS\s*=\s*(\[[\s\S]*\]);/);
     if (m) { products = JSON.parse(m[1]); return true; }
     return false;
   }
@@ -425,7 +425,7 @@
     if (!file) return false;
     contentSha = file.sha;
     const txt = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
-    const m = txt.match(/window\.CONTENT\s*=\s*(\{[\s\S]*?\});/);
+    const m = txt.match(/window\.CONTENT\s*=\s*(\{[\s\S]*\});/);
     if (m) { siteContent = JSON.parse(m[1]); return true; }
     return false;
   }
@@ -706,11 +706,17 @@
 
     if (cfg.user && cfg.repo && cfg.token) {
       setSaving(true, 'A carregar dados...');
-      await Promise.all([loadProducts(), loadContent()]);
-      setSaving(false);
-      const el = document.getElementById('gh-status');
-      el.textContent = `✓ ${products.length} produtos carregados.`;
-      el.className = 'github-status ok';
+      try {
+        await Promise.all([loadProducts(), loadContent()]);
+        const el = document.getElementById('gh-status');
+        el.textContent = `✓ ${products.length} produtos carregados.`;
+        el.className = 'github-status ok';
+      } catch (e) {
+        console.error('Erro ao carregar dados:', e);
+        toast('Erro ao carregar dados. Verifica o token GitHub.', 'err');
+      } finally {
+        setSaving(false);
+      }
     }
     renderSiteEditor();
     renderTipoFilters();
