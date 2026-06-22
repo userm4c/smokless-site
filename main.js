@@ -268,7 +268,7 @@ function loadContent() {
       <div class="contact-card fade-up" style="transition-delay:240ms">
         <div class="contact-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <span class="contact-type">Horário</span>
-        <span class="contact-value">${h.dias}<br />${h.horas}</span>
+        <span class="contact-value">${h.dias}<br />${Array.isArray(h.horas) ? h.horas.join('<br />') : h.horas}</span>
         ${h.nota ? `<span class="contact-nota">${h.nota}</span>` : ''}
       </div>` : ''}`;
   }

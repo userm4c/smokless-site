@@ -6,22 +6,10 @@ window.CONTENT = {
       "Vem visitar-nos em <strong>Espinho</strong> ou segue-nos no Instagram para as novidades diárias."
     ],
     "stats": [
-      {
-        "valor": "+200",
-        "label": "Produtos"
-      },
-      {
-        "valor": "+20",
-        "label": "Marcas"
-      },
-      {
-        "valor": "5★",
-        "label": "Avaliação"
-      },
-      {
-        "valor": "Espinho",
-        "label": "Portugal"
-      }
+      { "valor": "+200", "label": "Produtos" },
+      { "valor": "+20",  "label": "Marcas"   },
+      { "valor": "5★",  "label": "Avaliação" },
+      { "valor": "Espinho", "label": "Portugal" }
     ]
   },
   "contacto": {
@@ -31,17 +19,8 @@ window.CONTENT = {
   },
   "horario": {
     "dias": "Segunda a Sábado",
-    "horas": "10h00 – 13h00; 14h00 – 19h00",
+    "horas": ["10h00 – 13h00", "14h00 – 19h00"],
     "nota": "Domingos e feriados encerrado"
   },
-  "marcas": [
-    "Early Bird",
-    "Vaporesso",
-    "Lost Vape",
-    "Geekvape",
-    "Voopoo",
-    "Uwell",
-    "Smok",
-    "Aspire"
-  ]
+  "marcas": ["Early Bird", "Vaporesso", "Lost Vape", "Geekvape", "Voopoo", "Uwell", "Smok", "Aspire"]
 };
