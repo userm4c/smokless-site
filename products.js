@@ -28,6 +28,7 @@ window.PRODUCTS = [
     "id": 2,
     "tipo": "KIT",
     "nome": "Vaporesso Armor Max 220W",
+    "pasta": "Vaporesso Armor Max 220W",
     "descricao": "220W, dual 21700, iTank 2 de 8ml. Construído para resistir a tudo.",
     "descricao_detalhada": "O Armor Max da Vaporesso é um kit de alta potência pensado para quem não abdica de desempenho. Com bateria dupla 21700 e o chip AXON Gen 2, entrega vapor denso e consistente em qualquer situação.",
     "caracteristicas": [
@@ -39,12 +40,11 @@ window.PRODUCTS = [
       "Ecrã TFT colorido",
       "Resistente a salpicos"
     ],
-    "pasta": "Vaporesso Armor Max 220W",
     "imagens": [
       "1.jpg",
       "2.jpg"
     ],
-    "destaque": true
+    "destaque": false
   },
   {
     "id": 3,
