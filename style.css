@@ -910,3 +910,158 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   .sobre-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
   .contact-grid { gap: 12px; }
 }
+
+/* ── CONTA (Fase 2 — auth de clientes) ── */
+.nav-account {
+  background: transparent;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.nav-account:hover { border-color: var(--green); color: var(--green); }
+
+.account-banner {
+  background: rgba(0,232,122,0.06);
+  border: 1px solid rgba(0,232,122,0.25);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 0.875rem;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+/* ── PREÇO/STOCK NO PRODUTO (visível só para clientes aprovados) ── */
+.product-pricing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.product-preco {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.product-stock {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.stock-ok    { background: rgba(0,232,122,0.12); color: var(--green); }
+.stock-out   { background: rgba(255,77,77,0.12); color: #ff6b6b; }
+.stock-order { background: rgba(255,255,255,0.08); color: var(--muted); }
+
+/* ── MODAL DE CONTA (login/registo) ── */
+.auth-modal { max-width: 420px; }
+
+.auth-modal-body {
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.auth-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 0;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.auth-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+.auth-form {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-form.active { display: flex; }
+
+.auth-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.auth-modal .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-modal .form-group label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.auth-modal .form-group input {
+  background: var(--card);
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.auth-modal .form-group input:focus { outline: none; border-color: var(--green); }
+
+.auth-error { font-size: 0.8125rem; color: #ff6b6b; }
+.auth-hint  { font-size: 0.8125rem; color: var(--green); line-height: 1.5; }
+
+.auth-submit { padding: 13px 24px; font-size: 0.875rem; letter-spacing: 0.08em; }
+
+.auth-link {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: center;
+  font-family: inherit;
+}
+
+.auth-link:hover { color: var(--green); }
+
+@media (max-width: 768px) {
+  .nav-account { padding: 6px 10px; font-size: 0.6875rem; }
+}

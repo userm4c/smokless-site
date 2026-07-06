@@ -59,6 +59,15 @@ function observeAnimated() {
 let allProducts  = [];
 let activeFilter = 'Todos';
 
+// ── Preço/stock (Fase 2 — só visível para clientes aprovados, ver auth.js) ──
+function pricingHtml(p) {
+  const pr = (window.PRICING || {})[p.id];
+  if (!pr) return '';
+  const precoTxt = pr.preco != null ? `€${Number(pr.preco).toFixed(2)}` : 'Preço a definir';
+  const stockClass = pr.stock === 'disponível' ? 'stock-ok' : pr.stock === 'esgotado' ? 'stock-out' : 'stock-order';
+  return `<div class="product-pricing"><span class="product-preco">${precoTxt}</span><span class="product-stock ${stockClass}">${pr.stock}</span></div>`;
+}
+
 function renderProductGrid(products) {
   const grid = document.getElementById('products-grid');
   if (!grid) return;
@@ -80,6 +89,7 @@ function renderProductGrid(products) {
           <span class="product-tipo">${p.tipo}</span>
           <h3 class="product-nome">${p.nome}</h3>
           <p class="product-desc">${p.descricao}</p>
+          ${pricingHtml(p)}
           <span class="product-link">→ Ver Detalhes</span>
         </div>
       </article>`;
@@ -125,6 +135,7 @@ function renderDestaques(products) {
         <div class="destaque-info">
           <span class="product-tipo">${p.tipo}</span>
           <h3 class="destaque-nome">${p.nome}</h3>
+          ${pricingHtml(p)}
           <span class="product-link">→ Ver Detalhes</span>
         </div>
       </article>`;
@@ -187,6 +198,7 @@ function openModal(p) {
     <div class="modal-info">
       <span class="modal-tipo">${p.tipo}</span>
       <h2 class="modal-nome" id="modal-title">${p.nome}</h2>
+      ${pricingHtml(p)}
       <p class="modal-desc">${p.descricao}</p>
       ${p.descricao_detalhada ? `<p class="modal-desc-detail">${p.descricao_detalhada}</p>` : ''}
       ${p.caracteristicas?.length ? `
@@ -286,3 +298,10 @@ function loadContent() {
 
 loadContent();
 loadProducts();
+
+// ── Reage a login/logout/aprovação (ver auth.js) sem recarregar a página ──
+window.addEventListener('smokless:auth-change', () => {
+  if (!allProducts.length) return;
+  renderDestaques(allProducts.filter((p) => p.destaque));
+  renderProductGrid(activeFilter === 'Todos' ? allProducts : allProducts.filter((p) => p.tipo === activeFilter));
+});
