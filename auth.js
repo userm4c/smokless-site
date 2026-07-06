@@ -38,6 +38,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && authOver
 navAccountBtn.addEventListener('click', async () => {
   if (currentSession) {
     await supabaseClient.auth.signOut();
+    await refreshAuthState(null);
   } else {
     openAuthModal('login');
   }
@@ -51,7 +52,7 @@ loginForm.addEventListener('submit', async (e) => {
   const errEl = document.getElementById('login-error');
   errEl.style.display = 'none';
 
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) {
     errEl.textContent = 'Email ou senha incorrectos.';
     errEl.style.display = 'block';
@@ -59,6 +60,8 @@ loginForm.addEventListener('submit', async (e) => {
   }
   closeAuthModal();
   loginForm.reset();
+  // Não depende só do onAuthStateChange (pode disparar com atraso) — actualiza já com a sessão que voltou do login.
+  await refreshAuthState(data.session);
 });
 
 document.getElementById('auth-forgot-btn').addEventListener('click', async () => {
@@ -86,7 +89,7 @@ registoForm.addEventListener('submit', async (e) => {
   errEl.style.display = 'none';
   okEl.style.display = 'none';
 
-  const { error } = await supabaseClient.auth.signUp({
+  const { data, error } = await supabaseClient.auth.signUp({
     email,
     password,
     options: { data: { nome, telefone } },
@@ -102,6 +105,8 @@ registoForm.addEventListener('submit', async (e) => {
 
   okEl.style.display = 'block';
   registoForm.reset();
+  // Com "Confirm email" desactivado, o signUp já devolve sessão activa — actualiza o gate (fica "pending").
+  if (data.session) await refreshAuthState(data.session);
 });
 
 // ── Gate do catálogo (produtos só aparecem para clientes approved) ──
