@@ -287,6 +287,9 @@
       <h2>Produtos</h2>
       <button class="btn btn-green btn-sm" id="add-btn">+ Adicionar Produto</button>
     </div>
+    <div class="form-group" style="margin-bottom:16px;max-width:360px;">
+      <input type="text" id="produtos-search" placeholder="Pesquisar por nome, tipo ou descrição..." />
+    </div>
     <div class="tipo-filters" id="tipo-filters"></div>
     <div id="product-list"></div>
   </div>
@@ -297,6 +300,9 @@
       <h2>Preços &amp; Stock</h2>
     </div>
     <p class="form-hint" style="margin-bottom:16px">Preço/stock não ficam no GitHub — vivem no Supabase e só aparecem para clientes aprovados.</p>
+    <div class="form-group" style="margin-bottom:16px;max-width:360px;">
+      <input type="text" id="precos-search" placeholder="Pesquisar por nome do produto..." />
+    </div>
     <div id="precos-rows"></div>
   </div>
 
@@ -304,6 +310,9 @@
   <div class="tab-content" id="tab-clientes">
     <div class="products-header">
       <h2>Clientes</h2>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;max-width:360px;">
+      <input type="text" id="clientes-search" placeholder="Pesquisar por nome, email ou telefone..." />
     </div>
     <div id="clientes-rows"></div>
   </div>
@@ -444,6 +453,7 @@
 
   // ── Clientes (aprovação via Supabase) ──
   let clientes = [];
+  let clientesSearch = '';
 
   async function loadClientes() {
     const { data } = await supabaseClient.from('customers').select('*').order('created_at', { ascending: false });
@@ -457,13 +467,24 @@
     return '';
   }
 
+  function filteredClientes() {
+    if (!clientesSearch) return clientes;
+    const q = clientesSearch.toLowerCase();
+    return clientes.filter(c =>
+      (c.nome || '').toLowerCase().includes(q) ||
+      (c.email || '').toLowerCase().includes(q) ||
+      (c.telefone || '').toLowerCase().includes(q)
+    );
+  }
+
   function renderClientes() {
     const wrap = document.getElementById('clientes-rows');
-    if (!clientes.length) {
-      wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem clientes registados ainda.</p>';
+    const list = filteredClientes();
+    if (!list.length) {
+      wrap.innerHTML = `<p style="color:var(--muted);font-size:.875rem;">${clientes.length ? 'Nenhum cliente encontrado.' : 'Sem clientes registados ainda.'}</p>`;
       return;
     }
-    wrap.innerHTML = clientes.map(c => `
+    wrap.innerHTML = list.map(c => `
       <div class="product-row">
         <div class="product-row-info">
           <div class="product-row-nome">${c.nome} <span class="badge ${statusBadgeClass(c.status)}" style="margin-left:8px">${c.status}</span></div>
@@ -483,6 +504,7 @@
 
   // ── Preços & Stock (aba Preços) ──
   let pricingMap = {};
+  let precosSearch = '';
 
   async function loadPrecos() {
     const { data } = await supabaseClient.from('product_pricing').select('*');
@@ -498,7 +520,13 @@
       wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Carrega os produtos na aba "Produtos" primeiro (configura o GitHub em Configurações).</p>';
       return;
     }
-    wrap.innerHTML = products.map(p => {
+    const q = precosSearch.toLowerCase();
+    const list = !q ? products : products.filter(p => (p.nome || '').toLowerCase().includes(q));
+    if (!list.length) {
+      wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Nenhum produto encontrado.</p>';
+      return;
+    }
+    wrap.innerHTML = list.map(p => {
       const pr = pricingMap[p.id] || {};
       return `
         <div class="product-row">
@@ -602,6 +630,21 @@
   document.getElementById('pedidos-search').addEventListener('input', e => {
     pedidosSearch = e.target.value.trim();
     renderPedidos();
+  });
+
+  document.getElementById('produtos-search').addEventListener('input', e => {
+    produtosSearch = e.target.value.trim();
+    renderProductList();
+  });
+
+  document.getElementById('precos-search').addEventListener('input', e => {
+    precosSearch = e.target.value.trim();
+    renderPrecos();
+  });
+
+  document.getElementById('clientes-search').addEventListener('input', e => {
+    clientesSearch = e.target.value.trim();
+    renderClientes();
   });
 
   // ── GitHub ──
@@ -785,6 +828,7 @@
 
   // ── Render products tab ──
   let activeFilter = 'Todos';
+  let produtosSearch = '';
 
   function renderTipoFilters() {
     const tipos = ['Todos', ...new Set(products.map(p => p.tipo).filter(Boolean).sort())];
@@ -800,7 +844,16 @@
 
   function renderProductList() {
     const list = document.getElementById('product-list');
-    const filtered = activeFilter === 'Todos' ? products : products.filter(p => p.tipo === activeFilter);
+    let filtered = activeFilter === 'Todos' ? products : products.filter(p => p.tipo === activeFilter);
+
+    if (produtosSearch) {
+      const q = produtosSearch.toLowerCase();
+      filtered = filtered.filter(p =>
+        (p.nome || '').toLowerCase().includes(q) ||
+        (p.tipo || '').toLowerCase().includes(q) ||
+        (p.descricao || '').toLowerCase().includes(q)
+      );
+    }
 
     if (!filtered.length) {
       list.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem produtos nesta categoria.</p>';
