@@ -313,6 +313,9 @@
     <div class="products-header">
       <h2>Pedidos</h2>
     </div>
+    <div class="form-group" style="margin-bottom:16px;max-width:360px;">
+      <input type="text" id="pedidos-search" placeholder="Pesquisar por cliente, email ou produto..." />
+    </div>
     <div id="pedidos-rows"></div>
   </div>
 
@@ -535,6 +538,7 @@
 
   // ── Pedidos (aba Pedidos) ──
   let pedidos = [];
+  let pedidosSearch = '';
   const PEDIDO_PROXIMO_STATUS = { pendente: 'confirmado', confirmado: 'pronto', pronto: 'entregue' };
 
   async function loadPedidos() {
@@ -552,13 +556,25 @@
     return '';
   }
 
+  function filteredPedidos() {
+    if (!pedidosSearch) return pedidos;
+    const q = pedidosSearch.toLowerCase();
+    return pedidos.filter(o => {
+      const nome = (o.customers?.nome || '').toLowerCase();
+      const email = (o.customers?.email || '').toLowerCase();
+      const itens = (o.order_items || []).map(it => it.produto_nome.toLowerCase()).join(' ');
+      return nome.includes(q) || email.includes(q) || itens.includes(q);
+    });
+  }
+
   function renderPedidos() {
     const wrap = document.getElementById('pedidos-rows');
-    if (!pedidos.length) {
-      wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem pedidos ainda.</p>';
+    const list = filteredPedidos();
+    if (!list.length) {
+      wrap.innerHTML = `<p style="color:var(--muted);font-size:.875rem;">${pedidos.length ? 'Nenhum pedido encontrado.' : 'Sem pedidos ainda.'}</p>`;
       return;
     }
-    wrap.innerHTML = pedidos.map(o => {
+    wrap.innerHTML = list.map(o => {
       const total = (o.order_items || []).reduce((s, it) => s + (it.preco_unitario || 0) * it.quantidade, 0);
       const itemsTxt = (o.order_items || []).map(it => `${it.quantidade}× ${it.produto_nome}`).join(', ');
       const proximo = PEDIDO_PROXIMO_STATUS[o.status];
@@ -582,6 +598,11 @@
     await supabaseClient.from('orders').update({ status }).eq('id', id);
     loadPedidos();
   }
+
+  document.getElementById('pedidos-search').addEventListener('input', e => {
+    pedidosSearch = e.target.value.trim();
+    renderPedidos();
+  });
 
   // ── GitHub ──
   function getGhConfig() {
