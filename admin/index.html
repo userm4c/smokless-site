@@ -99,6 +99,10 @@
     .github-status.ok { color: var(--green); }
     .github-status.err { color: var(--danger); }
 
+    /* ── Clientes tab ── */
+    .badge.err { background: rgba(255,77,77,0.12); color: var(--danger); }
+    .badge.muted { background: rgba(255,255,255,0.08); color: var(--muted); }
+
     /* ── Modal editor ── */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
     .modal-overlay.open { display: flex; }
@@ -179,6 +183,7 @@
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="site">Edição do Site</button>
     <button class="tab-btn" data-tab="produtos">Produtos</button>
+    <button class="tab-btn" data-tab="clientes">Clientes</button>
     <button class="tab-btn" data-tab="config">Configurações</button>
   </div>
 
@@ -280,6 +285,39 @@
     <div id="product-list"></div>
   </div>
 
+  <!-- ── TAB: CLIENTES ── -->
+  <div class="tab-content" id="tab-clientes">
+    <div class="products-header">
+      <h2>Clientes</h2>
+      <button class="btn btn-outline btn-sm" id="admin-sb-logout-btn" style="display:none">Sair (Supabase)</button>
+    </div>
+
+    <div class="section-card" id="clientes-login-card">
+      <div class="section-card-title"><span class="dot"></span>Entrar como Admin</div>
+      <p class="form-hint" style="margin-bottom:14px">Usa a conta Supabase marcada como admin (ver supabase/README.md).</p>
+      <div class="form-row" style="margin-bottom:14px">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="admin-sb-email" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="admin-sb-password" autocomplete="current-password" />
+        </div>
+      </div>
+      <p class="error-msg" id="admin-sb-error" style="display:none"></p>
+      <div class="section-card-footer">
+        <button class="btn btn-green btn-sm" id="admin-sb-login-btn">Entrar</button>
+      </div>
+    </div>
+
+    <div class="section-card" id="clientes-noauth-card" style="display:none">
+      <p class="error-msg">Esta conta Supabase não tem permissão de administrador.</p>
+    </div>
+
+    <div id="clientes-rows" style="display:none"></div>
+  </div>
+
   <!-- ── TAB: CONFIGURAÇÕES ── -->
   <div class="tab-content" id="tab-config">
     <div class="section-card">
@@ -375,6 +413,8 @@
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="../supabase-client.js"></script>
 <script>
   // ── Senha ──
   const PASSWORD_HASH = '4cae35b8106137b821600122404a83af1f3e71ad5eab3cb8de1875d61011039a';
@@ -403,8 +443,99 @@
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+      if (btn.dataset.tab === 'clientes') refreshClientesTab();
     });
   });
+
+  // ── Clientes (aprovação via Supabase) ──
+  let clientes = [];
+
+  async function adminSbLogin() {
+    const email = document.getElementById('admin-sb-email').value.trim();
+    const password = document.getElementById('admin-sb-password').value;
+    const errEl = document.getElementById('admin-sb-error');
+    errEl.style.display = 'none';
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      errEl.textContent = 'Email ou senha incorrectos.';
+      errEl.style.display = 'block';
+      return;
+    }
+    await refreshClientesTab();
+  }
+
+  async function adminSbLogout() {
+    await supabaseClient.auth.signOut();
+    await refreshClientesTab();
+  }
+
+  async function refreshClientesTab() {
+    const loginCard  = document.getElementById('clientes-login-card');
+    const noauthCard = document.getElementById('clientes-noauth-card');
+    const rowsWrap   = document.getElementById('clientes-rows');
+    const logoutBtn  = document.getElementById('admin-sb-logout-btn');
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+      loginCard.style.display = '';
+      noauthCard.style.display = 'none';
+      rowsWrap.style.display = 'none';
+      logoutBtn.style.display = 'none';
+      return;
+    }
+
+    logoutBtn.style.display = '';
+    const { data: adminRow } = await supabaseClient.from('admins').select('id').eq('id', session.user.id).maybeSingle();
+
+    if (!adminRow) {
+      loginCard.style.display = 'none';
+      noauthCard.style.display = '';
+      rowsWrap.style.display = 'none';
+      return;
+    }
+
+    loginCard.style.display = 'none';
+    noauthCard.style.display = 'none';
+    rowsWrap.style.display = '';
+    await loadClientes();
+  }
+
+  async function loadClientes() {
+    const { data } = await supabaseClient.from('customers').select('*').order('created_at', { ascending: false });
+    clientes = data || [];
+    renderClientes();
+  }
+
+  function statusBadgeClass(status) {
+    if (status === 'blocked') return 'err';
+    if (status === 'pending') return 'muted';
+    return '';
+  }
+
+  function renderClientes() {
+    const wrap = document.getElementById('clientes-rows');
+    if (!clientes.length) {
+      wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem clientes registados ainda.</p>';
+      return;
+    }
+    wrap.innerHTML = clientes.map(c => `
+      <div class="product-row">
+        <div class="product-row-info">
+          <div class="product-row-nome">${c.nome} <span class="badge ${statusBadgeClass(c.status)}" style="margin-left:8px">${c.status}</span></div>
+          <div class="form-hint">${c.email || ''} · ${c.telefone || ''}</div>
+        </div>
+        <div class="product-row-actions">
+          ${c.status !== 'approved' ? `<button class="btn btn-green btn-sm" onclick="setClienteStatus('${c.id}','approved')">Aprovar</button>` : ''}
+          ${c.status !== 'blocked' ? `<button class="btn btn-danger btn-sm" onclick="setClienteStatus('${c.id}','blocked')">Bloquear</button>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  async function setClienteStatus(id, status) {
+    await supabaseClient.from('customers').update({ status }).eq('id', id);
+    await loadClientes();
+  }
 
   // ── GitHub ──
   function getGhConfig() {
@@ -857,6 +988,10 @@
     setSaving(false);
     toast(ok ? 'Marcas guardadas.' : 'Erro ao guardar.', ok ? 'ok' : 'err');
   });
+
+  document.getElementById('admin-sb-login-btn').addEventListener('click', adminSbLogin);
+  document.getElementById('admin-sb-password').addEventListener('keydown', e => { if (e.key === 'Enter') adminSbLogin(); });
+  document.getElementById('admin-sb-logout-btn').addEventListener('click', adminSbLogout);
 
   document.getElementById('add-btn').addEventListener('click', () => openProductModal());
   document.getElementById('modal-close-btn').addEventListener('click', closeProductModal);
