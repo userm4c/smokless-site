@@ -159,12 +159,16 @@
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">SMOKLESS ADMIN</div>
-    <p class="login-subtitle">Acesso restrito — introduz a senha para continuar.</p>
+    <p class="login-subtitle">Acesso restrito a administradores — entra com a tua conta.</p>
     <div class="form-group">
-      <label for="pwd">Senha</label>
-      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" autocomplete="email" />
     </div>
-    <p class="error-msg" id="login-err" style="display:none">Senha incorrecta.</p>
+    <div class="form-group">
+      <label for="login-password">Senha</label>
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <p class="error-msg" id="login-err" style="display:none"></p>
     <button class="btn btn-green" id="login-btn">Entrar</button>
   </div>
 </div>
@@ -289,33 +293,8 @@
   <div class="tab-content" id="tab-clientes">
     <div class="products-header">
       <h2>Clientes</h2>
-      <button class="btn btn-outline btn-sm" id="admin-sb-logout-btn" style="display:none">Sair (Supabase)</button>
     </div>
-
-    <div class="section-card" id="clientes-login-card">
-      <div class="section-card-title"><span class="dot"></span>Entrar como Admin</div>
-      <p class="form-hint" style="margin-bottom:14px">Usa a conta Supabase marcada como admin (ver supabase/README.md).</p>
-      <div class="form-row" style="margin-bottom:14px">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="admin-sb-email" autocomplete="email" />
-        </div>
-        <div class="form-group">
-          <label>Senha</label>
-          <input type="password" id="admin-sb-password" autocomplete="current-password" />
-        </div>
-      </div>
-      <p class="error-msg" id="admin-sb-error" style="display:none"></p>
-      <div class="section-card-footer">
-        <button class="btn btn-green btn-sm" id="admin-sb-login-btn">Entrar</button>
-      </div>
-    </div>
-
-    <div class="section-card" id="clientes-noauth-card" style="display:none">
-      <p class="error-msg">Esta conta Supabase não tem permissão de administrador.</p>
-    </div>
-
-    <div id="clientes-rows" style="display:none"></div>
+    <div id="clientes-rows"></div>
   </div>
 
   <!-- ── TAB: CONFIGURAÇÕES ── -->
@@ -416,14 +395,6 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="../supabase-client.js"></script>
 <script>
-  // ── Senha ──
-  const PASSWORD_HASH = '4cae35b8106137b821600122404a83af1f3e71ad5eab3cb8de1875d61011039a';
-
-  async function sha256(msg) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
   // ── UI helpers ──
   function toast(msg, type = 'ok') {
     const el = document.getElementById('toast');
@@ -443,63 +414,12 @@
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
-      if (btn.dataset.tab === 'clientes') refreshClientesTab();
+      if (btn.dataset.tab === 'clientes') loadClientes();
     });
   });
 
   // ── Clientes (aprovação via Supabase) ──
   let clientes = [];
-
-  async function adminSbLogin() {
-    const email = document.getElementById('admin-sb-email').value.trim();
-    const password = document.getElementById('admin-sb-password').value;
-    const errEl = document.getElementById('admin-sb-error');
-    errEl.style.display = 'none';
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) {
-      errEl.textContent = 'Email ou senha incorrectos.';
-      errEl.style.display = 'block';
-      return;
-    }
-    await refreshClientesTab();
-  }
-
-  async function adminSbLogout() {
-    await supabaseClient.auth.signOut();
-    await refreshClientesTab();
-  }
-
-  async function refreshClientesTab() {
-    const loginCard  = document.getElementById('clientes-login-card');
-    const noauthCard = document.getElementById('clientes-noauth-card');
-    const rowsWrap   = document.getElementById('clientes-rows');
-    const logoutBtn  = document.getElementById('admin-sb-logout-btn');
-
-    const { data: { session } } = await supabaseClient.auth.getSession();
-
-    if (!session) {
-      loginCard.style.display = '';
-      noauthCard.style.display = 'none';
-      rowsWrap.style.display = 'none';
-      logoutBtn.style.display = 'none';
-      return;
-    }
-
-    logoutBtn.style.display = '';
-    const { data: adminRow } = await supabaseClient.from('admins').select('id').eq('id', session.user.id).maybeSingle();
-
-    if (!adminRow) {
-      loginCard.style.display = 'none';
-      noauthCard.style.display = '';
-      rowsWrap.style.display = 'none';
-      return;
-    }
-
-    loginCard.style.display = 'none';
-    noauthCard.style.display = 'none';
-    rowsWrap.style.display = '';
-    await loadClientes();
-  }
 
   async function loadClientes() {
     const { data } = await supabaseClient.from('customers').select('*').order('created_at', { ascending: false });
@@ -922,7 +842,12 @@
   }
 
   // ── Init ──
+  let adminSession = null;
+
   async function initApp() {
+    const badgeEl = document.querySelector('.app-header-right .badge');
+    if (badgeEl && adminSession) badgeEl.textContent = adminSession.user.email;
+
     const cfg = getGhConfig();
     document.getElementById('gh-user').value  = cfg.user;
     document.getElementById('gh-repo').value  = cfg.repo;
@@ -945,22 +870,59 @@
     renderSiteEditor();
     renderTipoFilters();
     renderProductList();
+    loadClientes();
+  }
+
+  function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'block';
+    initApp();
+  }
+
+  // Confirma que a sessão pertence a uma conta marcada como admin (tabela admins) — não basta ter login válido no Supabase.
+  async function checkAdminSession(session) {
+    if (!session) return false;
+    const { data: adminRow } = await supabaseClient.from('admins').select('id').eq('id', session.user.id).maybeSingle();
+    if (!adminRow) return false;
+    adminSession = session;
+    return true;
   }
 
   // ── Events ──
   document.getElementById('login-btn').addEventListener('click', async () => {
-    const hash = await sha256(document.getElementById('pwd').value);
-    if (hash === PASSWORD_HASH) {
-      sessionStorage.setItem('admin_auth', '1');
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app-screen').style.display = 'block';
-      initApp();
-    } else {
-      document.getElementById('login-err').style.display = 'block';
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-err');
+    const btn = document.getElementById('login-btn');
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'A entrar...';
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      errEl.textContent = 'Email ou senha incorrectos.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Entrar';
+      return;
     }
+
+    const isAdmin = await checkAdminSession(data.session);
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
+    if (!isAdmin) {
+      await supabaseClient.auth.signOut();
+      errEl.textContent = 'Esta conta não tem permissão de administrador.';
+      errEl.style.display = 'block';
+      return;
+    }
+    showApp();
   });
-  document.getElementById('pwd').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-btn').click(); });
-  document.getElementById('logout-btn').addEventListener('click', () => { sessionStorage.removeItem('admin_auth'); location.reload(); });
+  document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-btn').click(); });
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
+    location.reload();
+  });
 
   document.getElementById('save-site-btn').addEventListener('click', saveSobreSection);
   document.getElementById('save-contact-btn').addEventListener('click', saveContactSection);
@@ -988,10 +950,6 @@
     setSaving(false);
     toast(ok ? 'Marcas guardadas.' : 'Erro ao guardar.', ok ? 'ok' : 'err');
   });
-
-  document.getElementById('admin-sb-login-btn').addEventListener('click', adminSbLogin);
-  document.getElementById('admin-sb-password').addEventListener('keydown', e => { if (e.key === 'Enter') adminSbLogin(); });
-  document.getElementById('admin-sb-logout-btn').addEventListener('click', adminSbLogout);
 
   document.getElementById('add-btn').addEventListener('click', () => openProductModal());
   document.getElementById('modal-close-btn').addEventListener('click', closeProductModal);
@@ -1054,11 +1012,11 @@
     }
   });
 
-  if (sessionStorage.getItem('admin_auth') === '1') {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app-screen').style.display = 'block';
-    initApp();
-  }
+  (async () => {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (await checkAdminSession(session)) showApp();
+    else if (session) await supabaseClient.auth.signOut();
+  })();
 </script>
 </body>
 </html>
