@@ -27,7 +27,7 @@
     /* ── Form ── */
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-    .form-group input, .form-group textarea {
+    .form-group input, .form-group textarea, .form-group select {
       background: var(--card); border: 1px solid var(--divider); border-radius: 6px;
       padding: 10px 14px; color: var(--text); font-family: inherit; font-size: 0.9375rem;
       transition: border-color 0.2s; width: 100%;
@@ -187,7 +187,9 @@
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="site">Edição do Site</button>
     <button class="tab-btn" data-tab="produtos">Produtos</button>
+    <button class="tab-btn" data-tab="precos">Preços</button>
     <button class="tab-btn" data-tab="clientes">Clientes</button>
+    <button class="tab-btn" data-tab="pedidos">Pedidos</button>
     <button class="tab-btn" data-tab="config">Configurações</button>
   </div>
 
@@ -289,12 +291,29 @@
     <div id="product-list"></div>
   </div>
 
+  <!-- ── TAB: PREÇOS ── -->
+  <div class="tab-content" id="tab-precos">
+    <div class="products-header">
+      <h2>Preços &amp; Stock</h2>
+    </div>
+    <p class="form-hint" style="margin-bottom:16px">Preço/stock não ficam no GitHub — vivem no Supabase e só aparecem para clientes aprovados.</p>
+    <div id="precos-rows"></div>
+  </div>
+
   <!-- ── TAB: CLIENTES ── -->
   <div class="tab-content" id="tab-clientes">
     <div class="products-header">
       <h2>Clientes</h2>
     </div>
     <div id="clientes-rows"></div>
+  </div>
+
+  <!-- ── TAB: PEDIDOS ── -->
+  <div class="tab-content" id="tab-pedidos">
+    <div class="products-header">
+      <h2>Pedidos</h2>
+    </div>
+    <div id="pedidos-rows"></div>
   </div>
 
   <!-- ── TAB: CONFIGURAÇÕES ── -->
@@ -415,6 +434,8 @@
       btn.classList.add('active');
       document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
       if (btn.dataset.tab === 'clientes') loadClientes();
+      if (btn.dataset.tab === 'precos') loadPrecos();
+      if (btn.dataset.tab === 'pedidos') loadPedidos();
     });
   });
 
@@ -455,6 +476,111 @@
   async function setClienteStatus(id, status) {
     await supabaseClient.from('customers').update({ status }).eq('id', id);
     await loadClientes();
+  }
+
+  // ── Preços & Stock (aba Preços) ──
+  let pricingMap = {};
+
+  async function loadPrecos() {
+    const { data } = await supabaseClient.from('product_pricing').select('*');
+    pricingMap = {};
+    (data || []).forEach(r => { pricingMap[r.product_id] = r; });
+    renderPrecos();
+  }
+
+  function renderPrecos() {
+    const wrap = document.getElementById('precos-rows');
+    if (!wrap) return;
+    if (!products.length) {
+      wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Carrega os produtos na aba "Produtos" primeiro (configura o GitHub em Configurações).</p>';
+      return;
+    }
+    wrap.innerHTML = products.map(p => {
+      const pr = pricingMap[p.id] || {};
+      return `
+        <div class="product-row">
+          <div class="product-row-info">
+            <div class="product-row-nome">${p.nome}</div>
+          </div>
+          <div class="form-row" style="flex:1;max-width:320px;gap:8px;margin:0;">
+            <div class="form-group">
+              <input type="number" step="0.01" min="0" id="preco-valor-${p.id}" value="${pr.preco ?? ''}" placeholder="Preço (€)" />
+            </div>
+            <div class="form-group">
+              <select id="preco-stock-${p.id}">
+                <option value="disponível" ${pr.stock === 'disponível' || !pr.stock ? 'selected' : ''}>Disponível</option>
+                <option value="esgotado" ${pr.stock === 'esgotado' ? 'selected' : ''}>Esgotado</option>
+                <option value="encomenda" ${pr.stock === 'encomenda' ? 'selected' : ''}>Encomenda</option>
+              </select>
+            </div>
+          </div>
+          <div class="product-row-actions">
+            <button class="btn btn-green btn-sm" onclick="savePreco(${p.id})">Guardar</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function savePreco(productId) {
+    const preco = document.getElementById(`preco-valor-${productId}`).value;
+    const stock = document.getElementById(`preco-stock-${productId}`).value;
+    const { error } = await supabaseClient.from('product_pricing').upsert({
+      product_id: productId,
+      preco: preco === '' ? null : Number(preco),
+      stock,
+    });
+    toast(error ? 'Erro ao guardar preço.' : 'Preço guardado.', error ? 'err' : 'ok');
+    if (!error) loadPrecos();
+  }
+
+  // ── Pedidos (aba Pedidos) ──
+  let pedidos = [];
+  const PEDIDO_PROXIMO_STATUS = { pendente: 'confirmado', confirmado: 'pronto', pronto: 'entregue' };
+
+  async function loadPedidos() {
+    const { data } = await supabaseClient
+      .from('orders')
+      .select('*, customers(nome, email), order_items(*)')
+      .order('created_at', { ascending: false });
+    pedidos = data || [];
+    renderPedidos();
+  }
+
+  function pedidoStatusBadge(status) {
+    if (status === 'cancelado') return 'err';
+    if (status === 'pendente') return 'muted';
+    return '';
+  }
+
+  function renderPedidos() {
+    const wrap = document.getElementById('pedidos-rows');
+    if (!pedidos.length) {
+      wrap.innerHTML = '<p style="color:var(--muted);font-size:.875rem;">Sem pedidos ainda.</p>';
+      return;
+    }
+    wrap.innerHTML = pedidos.map(o => {
+      const total = (o.order_items || []).reduce((s, it) => s + (it.preco_unitario || 0) * it.quantidade, 0);
+      const itemsTxt = (o.order_items || []).map(it => `${it.quantidade}× ${it.produto_nome}`).join(', ');
+      const proximo = PEDIDO_PROXIMO_STATUS[o.status];
+      return `
+        <div class="product-row" style="align-items:flex-start;flex-wrap:wrap;">
+          <div class="product-row-info">
+            <div class="product-row-nome">${o.customers?.nome || 'Cliente'} <span class="badge ${pedidoStatusBadge(o.status)}" style="margin-left:8px">${o.status}</span></div>
+            <div class="form-hint">${o.customers?.email || ''} · ${new Date(o.created_at).toLocaleString('pt-PT')}</div>
+            <div class="form-hint">${itemsTxt} — Total: €${total.toFixed(2)}</div>
+            ${o.notas ? `<div class="form-hint">Nota: ${o.notas}</div>` : ''}
+          </div>
+          <div class="product-row-actions">
+            ${proximo ? `<button class="btn btn-green btn-sm" onclick="setPedidoStatus('${o.id}','${proximo}')">Avançar (${proximo})</button>` : ''}
+            ${o.status !== 'cancelado' && o.status !== 'entregue' ? `<button class="btn btn-danger btn-sm" onclick="setPedidoStatus('${o.id}','cancelado')">Cancelar</button>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function setPedidoStatus(id, status) {
+    await supabaseClient.from('orders').update({ status }).eq('id', id);
+    loadPedidos();
   }
 
   // ── GitHub ──
@@ -871,6 +997,8 @@
     renderTipoFilters();
     renderProductList();
     loadClientes();
+    loadPrecos();
+    loadPedidos();
   }
 
   function showApp() {

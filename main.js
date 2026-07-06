@@ -92,6 +92,7 @@ function renderProductGrid(products) {
           <h3 class="product-nome">${p.nome}</h3>
           <p class="product-desc">${p.descricao}</p>
           ${pricingHtml(p)}
+          ${cartButtonHtml(p)}
           <span class="product-link">→ Ver Detalhes</span>
         </div>
       </article>`;
@@ -160,6 +161,7 @@ function renderDestaques(products) {
 
 function loadProducts() {
   allProducts = window.PRODUCTS || [];
+  window.allProducts = allProducts; // exposto pro cart.js montar o pedido com nome/id do produto
   if (!allProducts.length) return;
   renderDestaques(allProducts.filter((p) => p.destaque));
   renderFilterBar(allProducts);
@@ -218,6 +220,7 @@ function openModal(p) {
            target="_blank" rel="noopener" class="btn btn-green">
           Perguntar pelo WhatsApp
         </a>
+        ${cartButtonHtml(p)}
       </div>
     </div>`;
 

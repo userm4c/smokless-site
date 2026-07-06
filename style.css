@@ -1078,4 +1078,144 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
 
 @media (max-width: 768px) {
   .nav-account { padding: 6px 10px; font-size: 0.6875rem; }
+  .nav-cart { padding: 6px; }
 }
+
+/* ── CARRINHO / PEDIDOS ── */
+.nav-cart {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 7px 10px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.nav-cart:hover { border-color: var(--green); color: var(--green); }
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--green);
+  color: #000;
+  font-size: 0.625rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.btn-cart-add {
+  margin-top: 4px;
+  align-self: flex-start;
+  padding: 8px 16px;
+  font-size: 0.75rem;
+}
+
+.cart-modal { max-width: 460px; }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--divider);
+}
+
+.cart-item-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.cart-item-nome { font-size: 0.875rem; font-weight: 600; }
+.cart-item-preco { font-size: 0.75rem; color: var(--muted); }
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.cart-item-qty button {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--divider);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.cart-item-qty button:hover { border-color: var(--green); color: var(--green); }
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cart-item-remove:hover { color: #ff6b6b; }
+
+.cart-total {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--green);
+  text-align: right;
+  padding: 10px 0;
+}
+
+.order-card {
+  background: var(--card);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.order-card-header { display: flex; justify-content: space-between; align-items: center; }
+.order-date { font-size: 0.75rem; color: var(--muted); }
+.order-item-line { font-size: 0.875rem; color: var(--muted); }
+
+.order-status {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+  color: var(--muted);
+}
+
+.order-status-pendente  { background: rgba(255,255,255,0.08); color: var(--muted); }
+.order-status-confirmado,
+.order-status-pronto     { background: rgba(0,232,122,0.12); color: var(--green); }
+.order-status-entregue   { background: rgba(0,232,122,0.2); color: var(--green); }
+.order-status-cancelado  { background: rgba(255,77,77,0.12); color: #ff6b6b; }
+
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--divider);
+}
+
+.order-total { font-weight: 700; color: var(--text); font-size: 0.9375rem; }
