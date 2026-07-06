@@ -1044,7 +1044,8 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   color: var(--muted);
 }
 
-.auth-modal .form-group input {
+.auth-modal .form-group input,
+.auth-modal .form-group textarea {
   background: var(--card);
   border: 1px solid var(--divider);
   border-radius: 6px;
@@ -1056,7 +1057,13 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   width: 100%;
 }
 
-.auth-modal .form-group input:focus { outline: none; border-color: var(--green); }
+.auth-modal .form-group textarea { resize: vertical; min-height: 60px; }
+
+.auth-modal .form-group input:focus,
+.auth-modal .form-group textarea:focus { outline: none; border-color: var(--green); }
+
+.auth-modal .form-group input::placeholder,
+.auth-modal .form-group textarea::placeholder { color: rgba(255,255,255,0.4); opacity: 1; }
 
 .auth-error { font-size: 0.8125rem; color: #ff6b6b; }
 .auth-hint  { font-size: 0.8125rem; color: var(--green); line-height: 1.5; }
