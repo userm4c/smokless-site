@@ -934,10 +934,24 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   background: rgba(0,232,122,0.06);
   border: 1px solid rgba(0,232,122,0.25);
   border-radius: 8px;
-  padding: 14px 18px;
-  font-size: 0.875rem;
+  padding: 24px;
+  font-size: 0.9375rem;
   color: var(--text);
   margin-bottom: 20px;
+  text-align: center;
+}
+
+.account-banner p { margin-bottom: 14px; }
+.account-banner p:last-child { margin-bottom: 0; }
+
+.account-banner .btn {
+  padding: 12px 28px;
+  font-size: 0.8125rem;
+}
+
+.account-banner.blocked {
+  background: rgba(255,77,77,0.06);
+  border-color: rgba(255,77,77,0.25);
 }
 
 /* ── PREÇO/STOCK NO PRODUTO (visível só para clientes aprovados) ── */

@@ -1,5 +1,6 @@
 // ── Fase 2 (fundação): auth de clientes + preços/stock protegidos por RLS ──
 window.PRICING = {};
+window.CATALOG_UNLOCKED = false; // catálogo só aparece para clientes approved (ver refreshAuthState)
 
 const navAccountBtn   = document.getElementById('nav-account-btn');
 const authOverlay     = document.getElementById('auth-modal-overlay');
@@ -103,15 +104,32 @@ registoForm.addEventListener('submit', async (e) => {
   registoForm.reset();
 });
 
+// ── Gate do catálogo (produtos só aparecem para clientes approved) ──
+function showGate(text, withCta, variant = 'info') {
+  pendingBanner.className = `account-banner ${variant}`;
+  pendingBanner.innerHTML = withCta
+    ? `<p>${text}</p><button type="button" class="btn btn-green" id="catalog-gate-btn">Entrar / Criar Conta</button>`
+    : `<p>${text}</p>`;
+  pendingBanner.style.display = 'block';
+  const ctaBtn = document.getElementById('catalog-gate-btn');
+  if (ctaBtn) ctaBtn.addEventListener('click', () => openAuthModal('registo'));
+}
+
+function hideGate() {
+  pendingBanner.style.display = 'none';
+  pendingBanner.innerHTML = '';
+}
+
 // ── Estado de sessão / clientes / preços ──
 async function refreshAuthState(session) {
   currentSession = session;
 
   if (!session) {
     window.PRICING = {};
+    window.CATALOG_UNLOCKED = false;
     navAccountBtn.textContent = 'Entrar';
-    pendingBanner.style.display = 'none';
-    window.dispatchEvent(new CustomEvent('smokless:auth-change', { detail: { status: null, pricing: window.PRICING } }));
+    showGate('Cria uma conta e aguarda a aprovação da loja para ver o catálogo completo.', true);
+    window.dispatchEvent(new CustomEvent('smokless:auth-change', { detail: { status: null, pricing: window.PRICING, unlocked: false } }));
     return;
   }
 
@@ -125,22 +143,22 @@ async function refreshAuthState(session) {
   navAccountBtn.textContent = `Sair (${customer?.nome || 'Conta'})`;
 
   if (status === 'approved') {
-    pendingBanner.style.display = 'none';
+    window.CATALOG_UNLOCKED = true;
+    hideGate();
     const { data: pricing } = await supabaseClient.from('product_pricing').select('*');
     window.PRICING = {};
     (pricing || []).forEach((row) => { window.PRICING[row.product_id] = row; });
   } else {
     window.PRICING = {};
+    window.CATALOG_UNLOCKED = false;
     if (status === 'blocked') {
-      pendingBanner.textContent = 'A tua conta foi bloqueada — contacta a loja para mais informação.';
-      pendingBanner.style.display = 'block';
+      showGate('A tua conta foi bloqueada — contacta a loja para mais informação.', false, 'blocked');
     } else {
-      pendingBanner.textContent = 'Conta em aprovação — o acesso a preços fica disponível depois da confirmação da loja.';
-      pendingBanner.style.display = 'block';
+      showGate('Conta em aprovação — o acesso ao catálogo fica disponível depois da confirmação da loja.', false);
     }
   }
 
-  window.dispatchEvent(new CustomEvent('smokless:auth-change', { detail: { status, pricing: window.PRICING } }));
+  window.dispatchEvent(new CustomEvent('smokless:auth-change', { detail: { status, pricing: window.PRICING, unlocked: window.CATALOG_UNLOCKED } }));
 }
 
 supabaseClient.auth.onAuthStateChange((_event, session) => { refreshAuthState(session); });

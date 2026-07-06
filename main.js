@@ -71,6 +71,8 @@ function pricingHtml(p) {
 function renderProductGrid(products) {
   const grid = document.getElementById('products-grid');
   if (!grid) return;
+  if (!window.CATALOG_UNLOCKED) { grid.innerHTML = ''; grid.style.display = 'none'; return; }
+  grid.style.display = '';
   if (!products.length) {
     grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Sem produtos nesta categoria.</p>';
     return;
@@ -105,6 +107,8 @@ function renderProductGrid(products) {
 function renderFilterBar(products) {
   const bar = document.getElementById('filter-bar');
   if (!bar) return;
+  if (!window.CATALOG_UNLOCKED) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  bar.style.display = '';
   const tipos = ['Todos', ...new Set(products.map((p) => p.tipo).filter(Boolean).sort())];
   bar.innerHTML = tipos.map((t) =>
     `<button class="filter-chip ${t === activeFilter ? 'active' : ''}" data-tipo="${t}">${t}</button>`
@@ -122,7 +126,8 @@ function renderFilterBar(products) {
 function renderDestaques(products) {
   const section = document.getElementById('destaques');
   const scroll  = document.getElementById('destaques-scroll');
-  if (!section || !scroll || !products.length) return;
+  if (!section || !scroll) return;
+  if (!window.CATALOG_UNLOCKED || !products.length) { section.style.display = 'none'; return; }
   section.style.display = '';
 
   const cardHtml = products.map((p) => {
@@ -303,5 +308,6 @@ loadProducts();
 window.addEventListener('smokless:auth-change', () => {
   if (!allProducts.length) return;
   renderDestaques(allProducts.filter((p) => p.destaque));
+  renderFilterBar(allProducts);
   renderProductGrid(activeFilter === 'Todos' ? allProducts : allProducts.filter((p) => p.tipo === activeFilter));
 });
