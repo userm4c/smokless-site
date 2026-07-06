@@ -235,6 +235,17 @@ modalClose.addEventListener('click', closeModal);
 overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
+// ── Marcas (Fase 2 — só visível para clientes aprovados, igual ao catálogo) ──
+function renderMarcas() {
+  const marcasTrack = document.getElementById('marcas-track');
+  const marcasStrip = document.getElementById('marcas-strip');
+  if (!marcasStrip) return;
+  const marcas = window.CONTENT?.marcas;
+  if (!window.CATALOG_UNLOCKED || !marcas?.length) { marcasStrip.style.display = 'none'; return; }
+  marcasTrack.innerHTML = marcas.map((m) => `<span class="marca-pill">${m}</span>`).join('');
+  marcasStrip.style.display = '';
+}
+
 // ── Conteúdo do site ──
 function loadContent() {
   const c = window.CONTENT;
@@ -254,13 +265,7 @@ function loadContent() {
       </div>`).join('');
   }
 
-  // Marcas
-  const marcasTrack = document.getElementById('marcas-track');
-  const marcasStrip = document.getElementById('marcas-strip');
-  if (marcasTrack && c.marcas?.length) {
-    marcasTrack.innerHTML = c.marcas.map((m) => `<span class="marca-pill">${m}</span>`).join('');
-    if (marcasStrip) marcasStrip.style.display = '';
-  }
+  renderMarcas();
 
   // Contacto + Horário
   const ct = c.contacto || {};
@@ -306,6 +311,7 @@ loadProducts();
 
 // ── Reage a login/logout/aprovação (ver auth.js) sem recarregar a página ──
 window.addEventListener('smokless:auth-change', () => {
+  renderMarcas();
   if (!allProducts.length) return;
   renderDestaques(allProducts.filter((p) => p.destaque));
   renderFilterBar(allProducts);
