@@ -52,15 +52,14 @@ a { text-decoration: none; color: inherit; }
 }
 
 .navbar-inner {
-  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
   height: 64px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  justify-content: center;
+  gap: 40px;
 }
 
 /* ── LOGO ── */
@@ -71,7 +70,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .logo-img {
-  height: 100px;
+  height: 44px;
   width: auto;
   display: block;
 }
@@ -81,16 +80,10 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ── NAV LINKS ── */
-/* Centralizado de forma absoluta em relação à página (não ao espaço sobrando entre
-   logo e navbar-actions) — assim o login/logout, que muda a largura das ações à
-   direita, nunca desequilibra a posição do menu. */
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 32px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 /* ── AÇÕES À DIREITA (Instagram, carrinho, conta, burger) ── */
