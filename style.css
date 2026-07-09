@@ -84,6 +84,7 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: center;
   gap: 32px;
+  flex-shrink: 0;
 }
 
 /* ── AÇÕES À DIREITA (Instagram, carrinho, conta, burger) ── */
@@ -865,12 +866,12 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .sobre-inner { grid-template-columns: 1fr; gap: 40px; }
-  .contact-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 768px) {
+/* Breakpoint próprio da navbar (mais largo que o resto do site): com carrinho +
+   Meus Pedidos + conta somados ao menu e à logo, o conteúdo já não cabe numa
+   linha bem antes dos 768px do resto do layout — sem isto, os itens encolhem
+   sem quebrar linha e o texto passa a desenhar por cima do vizinho (ex:
+   "Contacto" sobreposto ao botão do Instagram). */
+@media (max-width: 1200px) {
   .nav-links {
     position: fixed;
     top: 64px;
@@ -891,8 +892,14 @@ a.contact-card:hover { border-color: rgba(0,232,122,0.25); }
   .burger { display: flex; }
 
   .navbar-inner { gap: 16px; }
+}
 
+@media (max-width: 900px) {
+  .sobre-inner { grid-template-columns: 1fr; gap: 40px; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
 
+@media (max-width: 768px) {
   .hero-btns {
     bottom: 10%;
     gap: 10px;
