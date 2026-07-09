@@ -56,7 +56,8 @@ a { text-decoration: none; color: inherit; }
   margin: 0 auto;
   padding: 0 32px;
   height: 64px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 32px;
 }
@@ -66,6 +67,7 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  justify-self: start;
 }
 
 .logo-img {
@@ -82,8 +84,16 @@ a { text-decoration: none; color: inherit; }
 .nav-links {
   display: flex;
   gap: 32px;
-  flex: 1;
-  justify-content: center;
+  justify-self: center;
+}
+
+/* ── AÇÕES À DIREITA (Instagram, carrinho, conta, burger) ── */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-self: end;
+  flex-shrink: 0;
 }
 
 .nav-links a {
@@ -125,7 +135,6 @@ a { text-decoration: none; color: inherit; }
   border: none;
   cursor: pointer;
   padding: 4px;
-  margin-left: auto;
 }
 
 .burger span {
